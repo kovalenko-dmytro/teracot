@@ -8,7 +8,7 @@
 		<version>2.4.0</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.amazon.sct</groupId>
+	<groupId>com.kovalenko</groupId>
 	<artifactId>teracot</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>test results after conversion tool</name>
