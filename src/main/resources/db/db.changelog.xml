@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
+    <changeSet  author="kovalenko-dmytro"  id="1">
+        <createTable  tableName="test_types">
+            <column  name="test_type_id"  type="bigint">
+                <constraints  nullable="false"  primaryKey="true"/>
+            </column>
+            <column  name="test_type_name"  type="VARCHAR(50)">
+                <constraints  nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="kovalenko-dmytro" id="2">
+        <insert tableName="test_types">
+            <column name="test_type_id" value="1"/>
+            <column name="test_type_name" value="ban"/>
+        </insert>
+        <insert tableName="test_types">
+            <column name="test_type_id" value="2"/>
+            <column name="test_type_name" value="sent"/>
+        </insert>
+    </changeSet>
+    <changeSet  author="kovalenko-dmytro"  id="3">
+        <createTable  tableName="collected_test_results">
+            <column  name="test_result_id"  type="bigint">
+                <constraints  nullable="false"  primaryKey="true"/>
+            </column>
+            <column  name="version"  type="VARCHAR(20)">
+                <constraints  nullable="false"/>
+            </column>
+            <column  name="dialect_pair"  type="VARCHAR">
+                <constraints  nullable="false"/>
+            </column>
+            <column  name="source_connection"  type="VARCHAR">
+                <constraints  nullable="false"/>
+            </column>
+            <column  name="target_connection"  type="VARCHAR">
+                <constraints  nullable="false"/>
+            </column>
+            <column  name="gc_memory"  type="VARCHAR(30)">
+                <constraints  nullable="false"/>
+            </column>
+            <column  name="tree_validator_state"  type="VARCHAR(10)">
+                <constraints  nullable="false"/>
+            </column>
+            <column  name="all_obj_count"  type="INTEGER">
+                <constraints  nullable="false"/>
+            </column>
+            <column  name="transformed_obj_count"  type="INTEGER">
+                <constraints  nullable="false"/>
+            </column>
+            <column  name="applied_obj_count"  type="INTEGER">
+                <constraints  nullable="false"/>
+            </column>
+            <column  name="transformed_from_error_report_count"  type="INTEGER">
+                <constraints  nullable="false"/>
+            </column>
+            <column  name="npe_count"  type="INTEGER">
+                <constraints  nullable="false"/>
+            </column>
+            <column  name="project_size"  type="VARCHAR(30)">
+                <constraints  nullable="false"/>
+            </column>
+            <column  name="target_size"  type="VARCHAR(30)">
+                <constraints  nullable="false"/>
+            </column>
+            <column  name="source_size"  type="VARCHAR(30)">
+                <constraints  nullable="false"/>
+            </column>
+            <column  name="is_applied"  type="BOOLEAN" defaultValue="false">
+                <constraints  nullable="false"/>
+            </column>
+            <column  name="test_type_id"  type="BIGINT">
+                <constraints  nullable="false" foreignKeyName="fk_collected_test_results_test_types" references="test_types(test_type_id)"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet  author="kovalenko-dmytro"  id="4">
+        <createTable  tableName="time_info_types">
+            <column  name="time_info_type_id"  type="bigint">
+                <constraints  nullable="false"  primaryKey="true"/>
+            </column>
+            <column  name="time_info_type_name"  type="VARCHAR(100)">
+                <constraints  nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="kovalenko-dmytro" id="5">
+        <insert tableName="time_info_types">
+            <column name="time_info_type_id" value="1"/>
+            <column name="time_info_type_name" value="TotalOperationTime"/>
+        </insert>
+        <insert tableName="time_info_types">
+            <column name="time_info_type_id" value="2"/>
+            <column name="time_info_type_name" value="LoadingTime"/>
+        </insert>
+        <insert tableName="time_info_types">
+            <column name="time_info_type_id" value="3"/>
+            <column name="time_info_type_name" value="ConversionTime"/>
+        </insert>
+        <insert tableName="time_info_types">
+            <column name="time_info_type_id" value="4"/>
+            <column name="time_info_type_name" value="ApplyTime"/>
+        </insert>
+        <insert tableName="time_info_types">
+            <column name="time_info_type_id" value="5"/>
+            <column name="time_info_type_name" value="SavingTime"/>
+        </insert>
+        <insert tableName="time_info_types">
+            <column name="time_info_type_id" value="6"/>
+            <column name="time_info_type_name" value="TotalWithoutLoadingTime"/>
+        </insert>
+        <insert tableName="time_info_types">
+            <column name="time_info_type_id" value="7"/>
+            <column name="time_info_type_name" value="TotalTime"/>
+        </insert>
+    </changeSet>
+    <changeSet  author="kovalenko-dmytro"  id="6">
+        <createTable  tableName="time_info">
+            <column  name="time_info_id"  type="bigint">
+                <constraints  nullable="false"  primaryKey="true"/>
+            </column>
+            <column  name="time_value"  type="VARCHAR(100)">
+                <constraints  nullable="false"/>
+            </column>
+            <column  name="time_info_type_id"  type="BIGINT">
+                <constraints  nullable="false" foreignKeyName="fk_time_info_time_info_types" references="time_info_types(time_info_type_id)"/>
+            </column>
+            <column  name="test_result_id"  type="BIGINT">
+                <constraints  nullable="false" foreignKeyName="fk_time_info_collected_test_results" references="collected_test_results(test_result_id)"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet  author="kovalenko-dmytro"  id="7">
+        <createTable  tableName="collected_action_item_counts">
+            <column  name="ai_id"  type="BIGINT">
+                <constraints  nullable="false"  primaryKey="true"/>
+            </column>
+            <column  name="ai_name"  type="VARCHAR(30)">
+                <constraints  nullable="false"/>
+            </column>
+            <column  name="ai_count"  type="INTEGER">
+                <constraints  nullable="false"/>
+            </column>
+            <column  name="test_result_id"  type="BIGINT">
+                <constraints  nullable="false" foreignKeyName="fk_collected_action_item_counts_collected_test_results" references="collected_test_results(test_result_id)"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>
