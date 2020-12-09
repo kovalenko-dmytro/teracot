@@ -152,5 +152,60 @@
             </column>
         </createTable>
     </changeSet>
+    <changeSet  author="kovalenko-dmytro"  id="8">
+        <createTable  tableName="statistic_reports">
+            <column  name="report_id"  type="bigint">
+                <constraints  nullable="false"  primaryKey="true"/>
+            </column>
+            <column  name="report_name"  type="VARCHAR">
+                <constraints  nullable="false"/>
+            </column>
+            <column  name="test_type_id"  type="BIGINT">
+                <constraints  nullable="false" foreignKeyName="fk_statistic_reports_test_types" references="test_types(test_type_id)"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="kovalenko-dmytro" id="9">
+        <insert tableName="statistic_reports">
+            <column name="report_id" value="1"/>
+            <column name="report_name" value="1404_ActionItems"/>
+            <column name="test_type_id" value="1"/>
+        </insert>
+        <insert tableName="statistic_reports">
+            <column name="report_id" value="2"/>
+            <column name="report_name" value="1404_Apply"/>
+            <column name="test_type_id" value="1"/>
+        </insert>
+        <insert tableName="statistic_reports">
+            <column name="report_id" value="3"/>
+            <column name="report_name" value="1404_CollectedStatistics"/>
+            <column name="test_type_id" value="1"/>
+        </insert>
+        <insert tableName="statistic_reports">
+            <column name="report_id" value="4"/>
+            <column name="report_name" value="1404_Errors"/>
+            <column name="test_type_id" value="1"/>
+        </insert>
+        <insert tableName="statistic_reports">
+            <column name="report_id" value="5"/>
+            <column name="report_name" value="1404_ExceptionAnalyzer"/>
+            <column name="test_type_id" value="1"/>
+        </insert>
+        <insert tableName="statistic_reports">
+            <column name="report_id" value="6"/>
+            <column name="report_name" value="1404_TotalSourceObjectsCount"/>
+            <column name="test_type_id" value="1"/>
+        </insert>
+        <insert tableName="statistic_reports">
+            <column name="report_id" value="7"/>
+            <column name="report_name" value="1404_TotalTargetObjectsCount"/>
+            <column name="test_type_id" value="1"/>
+        </insert>
+        <insert tableName="statistic_reports">
+            <column name="report_id" value="8"/>
+            <column name="report_name" value="1404_TreeValidator"/>
+            <column name="test_type_id" value="1"/>
+        </insert>
+    </changeSet>
 
 </databaseChangeLog>
