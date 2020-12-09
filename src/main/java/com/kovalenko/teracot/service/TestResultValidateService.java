@@ -5,5 +5,5 @@ import java.nio.file.Path;
 
 public interface TestResultValidateService {
 
-    void validate(String testType, Path pathToSource) throws ApplicationException;
+    void validate(long testTypeID, Path pathToSource) throws ApplicationException;
 }

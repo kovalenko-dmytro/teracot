@@ -19,24 +19,15 @@ public class TestResultValidateServiceImpl implements TestResultValidateService 
     private final MessageSource messageSource;
 
     @Override
-    public void validate(String testType, Path pathToSource) throws ApplicationException {
-        validateTestType(testType);
+    public void validate(long testTypeID, Path pathToSource) throws ApplicationException {
+        testTypeService.findById(testTypeID);
         validatePathToResource(pathToSource);
-    }
-
-    private void validateTestType(String testType) throws ApplicationException {
-        testTypeService.findAll().stream()
-            .filter(type -> type.getTestTypeName().equalsIgnoreCase(testType))
-            .findFirst()
-            .orElseThrow(() ->
-                new ApplicationException(messageSource.getMessage(
-                    "test.type.not.exist", new Object[] {testType}, Locale.ENGLISH)));
     }
 
     private void validatePathToResource(Path pathToSource) throws ApplicationException {
         if (Files.notExists(pathToSource) || directoryIsEmpty(pathToSource)) {
             throw new ApplicationException(messageSource.getMessage(
-                "test.type.not.exist", new Object[] {pathToSource}, Locale.ENGLISH));
+                "resource.path.not.exist", new Object[] {pathToSource}, Locale.ENGLISH));
         }
     }
 

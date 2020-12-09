@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface TestResultService {
 
-    List<CollectedTestResultDTO> getSummaryApplyingStatistics(String testTypeID);
-    void uploadTestResults(String testType, String pathToResource) throws ApplicationException;
+    List<CollectedTestResultDTO> getSummaryApplyingStatistics(long testTypeID);
+    void uploadTestResults(long testTypeID, String pathToResource) throws ApplicationException;
 }

@@ -17,4 +17,9 @@ public class StatisticReportServiceImpl implements StatisticReportService {
     public List<StatisticReport> findAll() {
         return (List<StatisticReport>) statisticReportRepository.findAll();
     }
+
+    @Override
+    public List<StatisticReport> findByTestTypeID(long testTypeID) {
+        return statisticReportRepository.findByTestType_TestTypeID(testTypeID);
+    }
 }

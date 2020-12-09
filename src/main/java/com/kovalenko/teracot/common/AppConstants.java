@@ -1,7 +1,9 @@
 package com.kovalenko.teracot.common;
 
 public enum AppConstants {
-    TEST("test");
+
+    SEARCH_TEST_DIRECTORY("statistic"),
+    CSV_EXTENSION(".csv");
 
     AppConstants(String value) {
         this.value = value;

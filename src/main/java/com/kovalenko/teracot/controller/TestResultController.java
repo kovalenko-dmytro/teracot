@@ -20,7 +20,7 @@ public class TestResultController {
     private final TestResultService testResultService;
 
     @GetMapping(value = "/{testTypeID}")
-    public ModelAndView getSummaryApplyingStatistics(@PathVariable(name = "testTypeID") String testTypeID) {
+    public ModelAndView getSummaryApplyingStatistics(@PathVariable(name = "testTypeID") long testTypeID) {
         ModelAndView view = new ModelAndView();
         view.addObject("summary", testResultService.getSummaryApplyingStatistics(testTypeID));
         view.setViewName("/pages/tests/index");
@@ -29,12 +29,12 @@ public class TestResultController {
 
     @PostMapping
     @ResponseBody
-    public void uploadTestResults(@RequestParam(name = "testType") String testType,
+    public void uploadTestResults(@RequestParam(name = "testTypeID") long testTypeID,
                                   @RequestParam(name = "pathToResource") String pathToResource) {
         try {
-            testResultService.uploadTestResults(testType, pathToResource);
+            testResultService.uploadTestResults(testTypeID, pathToResource);
         } catch (ApplicationException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 }
