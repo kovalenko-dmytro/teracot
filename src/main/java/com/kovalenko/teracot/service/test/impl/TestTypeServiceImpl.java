@@ -1,9 +1,9 @@
-package com.kovalenko.teracot.service.impl;
+package com.kovalenko.teracot.service.test.impl;
 
 import com.kovalenko.teracot.entity.test.TestType;
 import com.kovalenko.teracot.exception.ApplicationException;
 import com.kovalenko.teracot.repository.TestTypeRepository;
-import com.kovalenko.teracot.service.TestTypeService;
+import com.kovalenko.teracot.service.test.TestTypeService;
 import java.util.List;
 import java.util.Locale;
 import lombok.RequiredArgsConstructor;

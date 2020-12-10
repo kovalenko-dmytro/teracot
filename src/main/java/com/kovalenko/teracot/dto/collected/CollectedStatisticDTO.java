@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Builder
 @Data
-public class CollectedTestResultDTO {
+public class CollectedStatisticDTO {
 
 
 }

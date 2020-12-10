@@ -1,6 +1,6 @@
 package com.kovalenko.teracot.controller;
 
-import com.kovalenko.teracot.service.TestTypeService;
+import com.kovalenko.teracot.service.test.TestTypeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

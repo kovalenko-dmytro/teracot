@@ -1,6 +1,6 @@
 package com.kovalenko.teracot.entity.ai;
 
-import com.kovalenko.teracot.entity.collected.CollectedTestResult;
+import com.kovalenko.teracot.entity.collected.CollectedStatistic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,7 +14,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "collected_action_item_counts")
+@Table(name = "action_item_counts")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -32,6 +32,6 @@ public class ActionItemCount {
     private int aiCount;
 
     @ManyToOne
-    @JoinColumn(name = "test_result_id")
-    private CollectedTestResult collectedTestResult;
+    @JoinColumn(name = "collected_statistic_id")
+    private CollectedStatistic collectedStatistic;
 }

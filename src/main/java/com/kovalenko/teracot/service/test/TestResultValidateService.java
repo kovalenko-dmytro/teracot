@@ -1,4 +1,4 @@
-package com.kovalenko.teracot.service;
+package com.kovalenko.teracot.service.test;
 
 import com.kovalenko.teracot.exception.ApplicationException;
 import java.nio.file.Path;

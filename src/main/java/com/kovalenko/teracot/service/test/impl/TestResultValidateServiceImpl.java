@@ -1,8 +1,8 @@
-package com.kovalenko.teracot.service.impl;
+package com.kovalenko.teracot.service.test.impl;
 
 import com.kovalenko.teracot.exception.ApplicationException;
-import com.kovalenko.teracot.service.TestResultValidateService;
-import com.kovalenko.teracot.service.TestTypeService;
+import com.kovalenko.teracot.service.test.TestResultValidateService;
+import com.kovalenko.teracot.service.test.TestTypeService;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;

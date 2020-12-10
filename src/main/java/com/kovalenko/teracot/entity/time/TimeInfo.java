@@ -1,6 +1,6 @@
 package com.kovalenko.teracot.entity.time;
 
-import com.kovalenko.teracot.entity.collected.CollectedTestResult;
+import com.kovalenko.teracot.entity.collected.CollectedStatistic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -33,6 +33,6 @@ public class TimeInfo {
     private TimeInfoType timeInfoType;
 
     @ManyToOne
-    @JoinColumn(name = "test_result_id")
-    private CollectedTestResult collectedTestResult;
+    @JoinColumn(name = "collected_statistic_id")
+    private CollectedStatistic collectedStatistic;
 }

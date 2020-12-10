@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:layout="http://www.w3.org/1999/xhtml"
+<html xmlns:layout="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml"
       layout:decorate="~{layout/layout.html}">
 <head>
     <title>Home Page</title>
@@ -10,12 +10,21 @@
     <div class="container">
         <div class="row align-items-center m-3">
             <div class="col-10 mx-auto">
-                <h2 class="text-center">Find your test result for applying</h2>
+                <h2 class="text-center">Choose results view for <span th:text="${testType.testTypeName}"></span></h2>
             </div>
         </div>
         <div class="row align-items-center m-3">
-            <div class="col-12 mx-auto">
-                <h2 class="text-center">Summary applying test results statistic</h2>
+            <div class="col-6 mx-auto">
+                <a type="button"
+                   th:href="@{'/tests/' + ${testType.testTypeID} + '/test-results'}"
+                   class="btn btn-info btn-lg btn-block">
+                   Test results
+                </a>
+                <a type="button"
+                   th:href="@{'/tests/' + ${testType.testTypeID} + '/applied-info'}"
+                   class="btn btn-info btn-lg btn-block">
+                   Applied test results information
+                </a>
             </div>
         </div>
     </div>

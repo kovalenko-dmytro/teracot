@@ -1,7 +1,7 @@
 package com.kovalenko.teracot.controller;
 
 import com.kovalenko.teracot.exception.ApplicationException;
-import com.kovalenko.teracot.service.TestResultService;
+import com.kovalenko.teracot.service.test.TestResultService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,17 +13,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@RequestMapping(value = "/tests")
+@RequestMapping(value = "tests/{testTypeID}/test-results")
 @RequiredArgsConstructor
 public class TestResultController {
 
     private final TestResultService testResultService;
 
-    @GetMapping(value = "/{testTypeID}")
-    public ModelAndView getSummaryApplyingStatistics(@PathVariable(name = "testTypeID") long testTypeID) {
+    @GetMapping
+    public ModelAndView getTestResults(@PathVariable(name = "testTypeID") long testTypeID) {
         ModelAndView view = new ModelAndView();
-        view.addObject("summary", testResultService.getSummaryApplyingStatistics(testTypeID));
-        view.setViewName("/pages/tests/index");
+        view.addObject("testResults", testResultService.getTestResults(testTypeID));
+        view.setViewName("/pages/tests/test-results");
         return view;
     }
 

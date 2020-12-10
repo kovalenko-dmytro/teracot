@@ -1,4 +1,4 @@
-package com.kovalenko.teracot.service;
+package com.kovalenko.teracot.service.test;
 
 import com.kovalenko.teracot.entity.test.TestType;
 import com.kovalenko.teracot.exception.ApplicationException;

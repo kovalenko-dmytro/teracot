@@ -1,11 +1,12 @@
-package com.kovalenko.teracot.service.impl;
+package com.kovalenko.teracot.service.test.impl;
 
-import com.kovalenko.teracot.dto.collected.CollectedTestResultDTO;
+import com.kovalenko.teracot.entity.test.TestResult;
 import com.kovalenko.teracot.exception.ApplicationException;
-import com.kovalenko.teracot.service.TestResultService;
-import com.kovalenko.teracot.service.TestResultValidateService;
-import com.kovalenko.teracot.service.TestTypeService;
+import com.kovalenko.teracot.repository.TestResultRepository;
 import com.kovalenko.teracot.service.parse.TestResultFindService;
+import com.kovalenko.teracot.service.test.TestResultService;
+import com.kovalenko.teracot.service.test.TestResultValidateService;
+import com.kovalenko.teracot.service.test.TestTypeService;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
@@ -19,14 +20,15 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class TestResultServiceImpl implements TestResultService {
 
+    private final TestResultRepository testResultRepository;
     private final TestTypeService testTypeService;
     private final TestResultValidateService testResultValidateService;
     private final TestResultFindService testResultFindService;
     private final MessageSource messageSource;
 
     @Override
-    public List<CollectedTestResultDTO> getSummaryApplyingStatistics(long testTypeID) {
-        return null;
+    public List<TestResult> getTestResults(long testTypeID) {
+        return testResultRepository.findByTestType_testTypeID(testTypeID);
     }
 
     @Override

@@ -26,8 +26,33 @@
         </insert>
     </changeSet>
     <changeSet  author="kovalenko-dmytro"  id="3">
-        <createTable  tableName="collected_test_results">
+        <createTable  tableName="test_results">
             <column  name="test_result_id"  type="bigint">
+                <constraints  nullable="false"  primaryKey="true"/>
+            </column>
+            <column  name="user_name"  type="VARCHAR(150)">
+                <constraints  nullable="false"/>
+            </column>
+            <column  name="task_name"  type="VARCHAR(100)">
+                <constraints  nullable="false"/>
+            </column>
+            <column  name="dialect_pair"  type="VARCHAR">
+                <constraints  nullable="false"/>
+            </column>
+            <column  name="created"  type="TIMESTAMP">
+                <constraints  nullable="false"/>
+            </column>
+            <column  name="is_applied"  type="BOOLEAN" defaultValue="false">
+                <constraints  nullable="false"/>
+            </column>
+            <column  name="test_type_id"  type="BIGINT">
+                <constraints  nullable="false" foreignKeyName="fk_test_results_test_types" references="test_types(test_type_id)"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet  author="kovalenko-dmytro"  id="4">
+        <createTable  tableName="collected_statistics">
+            <column  name="collected_statistic_id"  type="bigint">
                 <constraints  nullable="false"  primaryKey="true"/>
             </column>
             <column  name="version"  type="VARCHAR(20)">
@@ -72,15 +97,12 @@
             <column  name="source_size"  type="VARCHAR(30)">
                 <constraints  nullable="false"/>
             </column>
-            <column  name="is_applied"  type="BOOLEAN" defaultValue="false">
-                <constraints  nullable="false"/>
-            </column>
-            <column  name="test_type_id"  type="BIGINT">
-                <constraints  nullable="false" foreignKeyName="fk_collected_test_results_test_types" references="test_types(test_type_id)"/>
+            <column  name="test_result_id"  type="BIGINT">
+                <constraints  nullable="false" foreignKeyName="fk_collected_statistics_test_results" references="test_results(test_result_id)"/>
             </column>
         </createTable>
     </changeSet>
-    <changeSet  author="kovalenko-dmytro"  id="4">
+    <changeSet  author="kovalenko-dmytro"  id="5">
         <createTable  tableName="time_info_types">
             <column  name="time_info_type_id"  type="bigint">
                 <constraints  nullable="false"  primaryKey="true"/>
@@ -90,7 +112,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="kovalenko-dmytro" id="5">
+    <changeSet author="kovalenko-dmytro" id="6">
         <insert tableName="time_info_types">
             <column name="time_info_type_id" value="1"/>
             <column name="time_info_type_name" value="TotalOperationTime"/>
@@ -120,7 +142,7 @@
             <column name="time_info_type_name" value="TotalTime"/>
         </insert>
     </changeSet>
-    <changeSet  author="kovalenko-dmytro"  id="6">
+    <changeSet  author="kovalenko-dmytro"  id="7">
         <createTable  tableName="time_info">
             <column  name="time_info_id"  type="bigint">
                 <constraints  nullable="false"  primaryKey="true"/>
@@ -131,13 +153,13 @@
             <column  name="time_info_type_id"  type="BIGINT">
                 <constraints  nullable="false" foreignKeyName="fk_time_info_time_info_types" references="time_info_types(time_info_type_id)"/>
             </column>
-            <column  name="test_result_id"  type="BIGINT">
-                <constraints  nullable="false" foreignKeyName="fk_time_info_collected_test_results" references="collected_test_results(test_result_id)"/>
+            <column  name="collected_statistic_id"  type="BIGINT">
+                <constraints  nullable="false" foreignKeyName="fk_time_info_collected_statistics" references="collected_statistics(collected_statistic_id)"/>
             </column>
         </createTable>
     </changeSet>
-    <changeSet  author="kovalenko-dmytro"  id="7">
-        <createTable  tableName="collected_action_item_counts">
+    <changeSet  author="kovalenko-dmytro"  id="8">
+        <createTable  tableName="action_item_counts">
             <column  name="ai_id"  type="BIGINT">
                 <constraints  nullable="false"  primaryKey="true"/>
             </column>
@@ -147,12 +169,12 @@
             <column  name="ai_count"  type="INTEGER">
                 <constraints  nullable="false"/>
             </column>
-            <column  name="test_result_id"  type="BIGINT">
-                <constraints  nullable="false" foreignKeyName="fk_collected_action_item_counts_collected_test_results" references="collected_test_results(test_result_id)"/>
+            <column  name="collected_statistic_id"  type="BIGINT">
+                <constraints  nullable="false" foreignKeyName="fk_action_item_counts_collected_statistics" references="collected_statistics(collected_statistic_id)"/>
             </column>
         </createTable>
     </changeSet>
-    <changeSet  author="kovalenko-dmytro"  id="8">
+    <changeSet  author="kovalenko-dmytro"  id="9">
         <createTable  tableName="statistic_reports">
             <column  name="report_id"  type="bigint">
                 <constraints  nullable="false"  primaryKey="true"/>
@@ -165,7 +187,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="kovalenko-dmytro" id="9">
+    <changeSet author="kovalenko-dmytro" id="10">
         <insert tableName="statistic_reports">
             <column name="report_id" value="1"/>
             <column name="report_name" value="1404_ActionItems"/>
