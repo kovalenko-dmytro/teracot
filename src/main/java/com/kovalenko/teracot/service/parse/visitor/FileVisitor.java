@@ -1,32 +1,30 @@
 package com.kovalenko.teracot.service.parse.visitor;
 
 import com.kovalenko.teracot.common.AppConstants;
-import java.io.File;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
-import java.util.Comparator;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import lombok.Getter;
 import org.apache.commons.io.FilenameUtils;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import static com.kovalenko.teracot.common.AppConstants.SEARCH_TEST_DIRECTORY;
 
 @Component
-@Scope("prototype")
 @Getter
 public class FileVisitor extends SimpleFileVisitor<Path> {
 
@@ -37,27 +35,11 @@ public class FileVisitor extends SimpleFileVisitor<Path> {
 
     @Override
     public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+        if (isNeedToSkip(file)) {
+            return FileVisitResult.CONTINUE;
+        }
         if (isArchive(file)) {
-            Path dirToCreate = null;
-            Path fileToCreate;
-            ZipFile zipFile = new ZipFile(file.toString());
-            Enumeration<? extends ZipEntry> zipEntries = zipFile.entries();
-            for (Iterator<? extends ZipEntry> iterator = zipEntries.asIterator(); iterator.hasNext(); ) {
-                ZipEntry entry = iterator.next();
-                String[] entryPathParts = entry.getName().split("/");
-                if (entry.isDirectory() && entryPathParts[entryPathParts.length - 1].equalsIgnoreCase(SEARCH_TEST_DIRECTORY.getValue())) {
-                    dirToCreate = createTempDirectory(file, entryPathParts[entryPathParts.length - 1]);
-                }
-                if (!entry.isDirectory() && entryPathParts[entryPathParts.length - 2].equalsIgnoreCase(SEARCH_TEST_DIRECTORY.getValue())) {
-                    fileToCreate = file.resolve(Objects.requireNonNull(dirToCreate)).resolve(entryPathParts[entryPathParts.length - 1]);
-                    Files.copy(zipFile.getInputStream(entry), fileToCreate);
-                }
-            }
-            if (Objects.nonNull(dirToCreate)) {
-                readReports(dirToCreate);
-                deleteTempDirectory(dirToCreate);
-                return FileVisitResult.TERMINATE;
-            }
+            handleArchive(file);
         }
         if (FilenameUtils.getBaseName(file.toString()).equalsIgnoreCase(SEARCH_TEST_DIRECTORY.getValue())) {
             readReports(file);
@@ -66,17 +48,41 @@ public class FileVisitor extends SimpleFileVisitor<Path> {
         return FileVisitResult.CONTINUE;
     }
 
-    private Path createTempDirectory(Path file, String entryPathPart) throws IOException {
-        Path dirToCreate = file.getParent().resolve(entryPathPart);
-        if (Files.exists(dirToCreate)) {
-            deleteTempDirectory(dirToCreate);
+    private void handleArchive(Path file) throws IOException {
+        String reportName;
+        String reportContent;
+        ZipFile zipFile = new ZipFile(file.toString());
+        Enumeration<? extends ZipEntry> zipEntries = zipFile.entries();
+        for (Iterator<? extends ZipEntry> iterator = zipEntries.asIterator(); iterator.hasNext();) {
+            ZipEntry entry = iterator.next();
+            String entryName = entry.getName();
+            if (isSearchedReport(entry, entryName)) {
+                reportName = FilenameUtils.getBaseName(entryName);
+                reportContent = extractFileContent(zipFile.getInputStream(entry));
+                reports.put(reportName, reportContent);
+            }
         }
-        Files.createDirectories(dirToCreate);
-        return dirToCreate;
     }
 
-    private void deleteTempDirectory(Path dirToCreate) throws IOException {
-        Files.walk(dirToCreate).sorted(Comparator.reverseOrder()).map(Path::toFile).forEach(File::delete);
+    private boolean isSearchedReport(ZipEntry entry, String entryName) {
+        return !entry.isDirectory() &&
+            entryName.contains(SEARCH_TEST_DIRECTORY.getValue()) &&
+            entryName.endsWith(AppConstants.CSV_EXTENSION.getValue());
+    }
+
+    private boolean isNeedToSkip(Path file) {
+        return file.toString().contains(AppConstants.SKIP_JAR.getValue()) ||
+            file.toString().contains(AppConstants.SKIP_LOG_ZIP.getValue());
+    }
+
+    private String extractFileContent(InputStream inputStream) throws IOException {
+        StringBuilder out = new StringBuilder();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+        String line;
+        while ((line = reader.readLine()) != null) {
+            out.append(line);
+        }
+        return out.toString();
     }
 
     private void readReports(Path dirToCreate) throws IOException {

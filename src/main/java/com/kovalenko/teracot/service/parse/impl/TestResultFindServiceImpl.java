@@ -29,6 +29,7 @@ public class TestResultFindServiceImpl implements TestResultFindService {
     public Map<String, String> findReportsFromResource(long testTypeID, Path pathToResource) throws ApplicationException {
         TestType testType = testTypeService.findById(testTypeID);
         try {
+            fileVisitor.getReports().clear();
             Files.walkFileTree(pathToResource, fileVisitor);
             Map<String, String> reports = fileVisitor.getReports();
             checkEmptyReportDirectory(pathToResource, testType, reports);
@@ -54,7 +55,10 @@ public class TestResultFindServiceImpl implements TestResultFindService {
                 .noneMatch(report -> report.equalsIgnoreCase(reportName));
             if (absent) {
                 throw new ApplicationException(
-                    messageSource.getMessage("unexpected.report.found", new Object[]{reportName}, Locale.ENGLISH));
+                    messageSource.getMessage(
+                        "unexpected.report.found",
+                        new Object[]{reportName, testType.getTestTypeName()},
+                        Locale.ENGLISH));
             }
         }
     }

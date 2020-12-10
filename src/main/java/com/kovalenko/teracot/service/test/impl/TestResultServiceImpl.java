@@ -11,6 +11,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
@@ -37,7 +38,7 @@ public class TestResultServiceImpl implements TestResultService {
         Path path = Paths.get(pathToResource);
         testResultValidateService.validate(testTypeID, path);
         TestResult testResult = saveTestResultInfo(testTypeID, pathToResource);
-        //Map<String, String> reports = testResultFindService.findReportsFromResource(testTypeID, path);
+        Map<String, String> reports = testResultFindService.findReportsFromResource(testTypeID, path);
     }
 
     private TestResult saveTestResultInfo(long testTypeID, String pathToResource) throws ApplicationException {
