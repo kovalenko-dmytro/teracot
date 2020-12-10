@@ -2,6 +2,7 @@ package com.kovalenko.teracot.controller;
 
 import com.kovalenko.teracot.exception.ApplicationException;
 import com.kovalenko.teracot.service.test.TestResultService;
+import com.kovalenko.teracot.service.test.TestTypeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,18 +19,24 @@ import org.springframework.web.servlet.ModelAndView;
 public class TestResultController {
 
     private final TestResultService testResultService;
+    private final TestTypeService testTypeService;
 
     @GetMapping
     public ModelAndView getTestResults(@PathVariable(name = "testTypeID") long testTypeID) {
         ModelAndView view = new ModelAndView();
-        view.addObject("testResults", testResultService.getTestResults(testTypeID));
-        view.setViewName("/pages/tests/test-results");
+        try {
+            view.addObject("testResults", testResultService.getTestResults(testTypeID));
+            view.addObject("testType", testTypeService.findById(testTypeID));
+            view.setViewName("/pages/tests/test-results");
+        } catch (ApplicationException e) {
+            view.setViewName("index");
+        }
         return view;
     }
 
     @PostMapping
     @ResponseBody
-    public void uploadTestResults(@RequestParam(name = "testTypeID") long testTypeID,
+    public void uploadTestResults(@PathVariable(name = "testTypeID") long testTypeID,
                                   @RequestParam(name = "pathToResource") String pathToResource) {
         try {
             testResultService.uploadTestResults(testTypeID, pathToResource);

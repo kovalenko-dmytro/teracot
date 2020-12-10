@@ -7,7 +7,7 @@
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
     <changeSet  author="kovalenko-dmytro"  id="1">
         <createTable  tableName="test_types">
-            <column  name="test_type_id"  type="bigint">
+            <column  name="test_type_id"  type="BIGSERIAL">
                 <constraints  nullable="false"  primaryKey="true"/>
             </column>
             <column  name="test_type_name"  type="VARCHAR(50)">
@@ -27,7 +27,7 @@
     </changeSet>
     <changeSet  author="kovalenko-dmytro"  id="3">
         <createTable  tableName="test_results">
-            <column  name="test_result_id"  type="bigint">
+            <column  name="test_result_id"  type="BIGSERIAL">
                 <constraints  nullable="false"  primaryKey="true"/>
             </column>
             <column  name="user_name"  type="VARCHAR(150)">
@@ -45,14 +45,14 @@
             <column  name="is_applied"  type="BOOLEAN" defaultValue="false">
                 <constraints  nullable="false"/>
             </column>
-            <column  name="test_type_id"  type="BIGINT">
+            <column  name="test_type_id"  type="BIGSERIAL">
                 <constraints  nullable="false" foreignKeyName="fk_test_results_test_types" references="test_types(test_type_id)"/>
             </column>
         </createTable>
     </changeSet>
     <changeSet  author="kovalenko-dmytro"  id="4">
         <createTable  tableName="collected_statistics">
-            <column  name="collected_statistic_id"  type="bigint">
+            <column  name="collected_statistic_id"  type="BIGSERIAL">
                 <constraints  nullable="false"  primaryKey="true"/>
             </column>
             <column  name="version"  type="VARCHAR(20)">
@@ -97,14 +97,14 @@
             <column  name="source_size"  type="VARCHAR(30)">
                 <constraints  nullable="false"/>
             </column>
-            <column  name="test_result_id"  type="BIGINT">
+            <column  name="test_result_id"  type="BIGSERIAL">
                 <constraints  nullable="false" foreignKeyName="fk_collected_statistics_test_results" references="test_results(test_result_id)"/>
             </column>
         </createTable>
     </changeSet>
     <changeSet  author="kovalenko-dmytro"  id="5">
         <createTable  tableName="time_info_types">
-            <column  name="time_info_type_id"  type="bigint">
+            <column  name="time_info_type_id"  type="BIGSERIAL">
                 <constraints  nullable="false"  primaryKey="true"/>
             </column>
             <column  name="time_info_type_name"  type="VARCHAR(100)">
@@ -144,23 +144,23 @@
     </changeSet>
     <changeSet  author="kovalenko-dmytro"  id="7">
         <createTable  tableName="time_info">
-            <column  name="time_info_id"  type="bigint">
+            <column  name="time_info_id"  type="BIGSERIAL">
                 <constraints  nullable="false"  primaryKey="true"/>
             </column>
             <column  name="time_value"  type="VARCHAR(100)">
                 <constraints  nullable="false"/>
             </column>
-            <column  name="time_info_type_id"  type="BIGINT">
+            <column  name="time_info_type_id"  type="BIGSERIAL">
                 <constraints  nullable="false" foreignKeyName="fk_time_info_time_info_types" references="time_info_types(time_info_type_id)"/>
             </column>
-            <column  name="collected_statistic_id"  type="BIGINT">
+            <column  name="collected_statistic_id"  type="BIGSERIAL">
                 <constraints  nullable="false" foreignKeyName="fk_time_info_collected_statistics" references="collected_statistics(collected_statistic_id)"/>
             </column>
         </createTable>
     </changeSet>
     <changeSet  author="kovalenko-dmytro"  id="8">
         <createTable  tableName="action_item_counts">
-            <column  name="ai_id"  type="BIGINT">
+            <column  name="ai_id"  type="BIGSERIAL">
                 <constraints  nullable="false"  primaryKey="true"/>
             </column>
             <column  name="ai_name"  type="VARCHAR(30)">
@@ -169,20 +169,20 @@
             <column  name="ai_count"  type="INTEGER">
                 <constraints  nullable="false"/>
             </column>
-            <column  name="collected_statistic_id"  type="BIGINT">
+            <column  name="collected_statistic_id"  type="BIGSERIAL">
                 <constraints  nullable="false" foreignKeyName="fk_action_item_counts_collected_statistics" references="collected_statistics(collected_statistic_id)"/>
             </column>
         </createTable>
     </changeSet>
     <changeSet  author="kovalenko-dmytro"  id="9">
         <createTable  tableName="statistic_reports">
-            <column  name="report_id"  type="bigint">
+            <column  name="report_id"  type="BIGSERIAL">
                 <constraints  nullable="false"  primaryKey="true"/>
             </column>
             <column  name="report_name"  type="VARCHAR">
                 <constraints  nullable="false"/>
             </column>
-            <column  name="test_type_id"  type="BIGINT">
+            <column  name="test_type_id"  type="BIGSERIAL">
                 <constraints  nullable="false" foreignKeyName="fk_statistic_reports_test_types" references="test_types(test_type_id)"/>
             </column>
         </createTable>

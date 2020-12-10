@@ -9,8 +9,8 @@ import com.kovalenko.teracot.service.test.TestResultValidateService;
 import com.kovalenko.teracot.service.test.TestTypeService;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
@@ -36,6 +36,19 @@ public class TestResultServiceImpl implements TestResultService {
     public void uploadTestResults(long testTypeID, String pathToResource) throws ApplicationException {
         Path path = Paths.get(pathToResource);
         testResultValidateService.validate(testTypeID, path);
-        Map<String, String> reports = testResultFindService.findReportsFromResource(testTypeID, path);
+        TestResult testResult = saveTestResultInfo(testTypeID, pathToResource);
+        //Map<String, String> reports = testResultFindService.findReportsFromResource(testTypeID, path);
+    }
+
+    private TestResult saveTestResultInfo(long testTypeID, String pathToResource) throws ApplicationException {
+        String[] pathArray = pathToResource.split("\\\\");
+        TestResult testResult = TestResult.builder()
+            .userName(pathArray[pathArray.length - 3])
+            .taskName(pathArray[pathArray.length - 2])
+            .dialectPair(pathArray[pathArray.length - 1])
+            .created(LocalDateTime.now())
+            .testType(testTypeService.findById(testTypeID))
+            .build();
+        return testResultRepository.save(testResult);
     }
 }
