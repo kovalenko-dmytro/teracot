@@ -18,11 +18,11 @@
     <changeSet author="kovalenko-dmytro" id="2">
         <insert tableName="test_types">
             <column name="test_type_id" value="1"/>
-            <column name="test_type_name" value="ban"/>
+            <column name="test_type_name" value="${test.type.b}"/>
         </insert>
         <insert tableName="test_types">
             <column name="test_type_id" value="2"/>
-            <column name="test_type_name" value="sent"/>
+            <column name="test_type_name" value="${test.type.s}"/>
         </insert>
     </changeSet>
     <changeSet  author="kovalenko-dmytro"  id="3">
@@ -115,31 +115,31 @@
     <changeSet author="kovalenko-dmytro" id="6">
         <insert tableName="time_info_types">
             <column name="time_info_type_id" value="1"/>
-            <column name="time_info_type_name" value="TotalOperationTime"/>
+            <column name="time_info_type_name" value="${time.info.type.tot}"/>
         </insert>
         <insert tableName="time_info_types">
             <column name="time_info_type_id" value="2"/>
-            <column name="time_info_type_name" value="LoadingTime"/>
+            <column name="time_info_type_name" value="${time.info.type.lt}"/>
         </insert>
         <insert tableName="time_info_types">
             <column name="time_info_type_id" value="3"/>
-            <column name="time_info_type_name" value="ConversionTime"/>
+            <column name="time_info_type_name" value="${time.info.type.ct}"/>
         </insert>
         <insert tableName="time_info_types">
             <column name="time_info_type_id" value="4"/>
-            <column name="time_info_type_name" value="ApplyTime"/>
+            <column name="time_info_type_name" value="${time.info.type.at}"/>
         </insert>
         <insert tableName="time_info_types">
             <column name="time_info_type_id" value="5"/>
-            <column name="time_info_type_name" value="SavingTime"/>
+            <column name="time_info_type_name" value="${time.info.type.st}"/>
         </insert>
         <insert tableName="time_info_types">
             <column name="time_info_type_id" value="6"/>
-            <column name="time_info_type_name" value="TotalWithoutLoadingTime"/>
+            <column name="time_info_type_name" value="${time.info.type.twlt}"/>
         </insert>
         <insert tableName="time_info_types">
             <column name="time_info_type_id" value="7"/>
-            <column name="time_info_type_name" value="TotalTime"/>
+            <column name="time_info_type_name" value="${time.info.type.tt}"/>
         </insert>
     </changeSet>
     <changeSet  author="kovalenko-dmytro"  id="7">
@@ -190,84 +190,84 @@
     <changeSet author="kovalenko-dmytro" id="10">
         <insert tableName="statistic_reports">
             <column name="report_id" value="1"/>
-            <column name="report_name" value="1404_ActionItems"/>
+            <column name="report_name" value="${report.template.name.ai}"/>
             <column name="test_type_id" value="1"/>
         </insert>
         <insert tableName="statistic_reports">
             <column name="report_id" value="2"/>
-            <column name="report_name" value="1404_Apply"/>
+            <column name="report_name" value="${report.template.name.a}"/>
             <column name="test_type_id" value="1"/>
         </insert>
         <insert tableName="statistic_reports">
             <column name="report_id" value="3"/>
-            <column name="report_name" value="1404_CollectedStatistics"/>
+            <column name="report_name" value="${report.template.name.cs}"/>
             <column name="test_type_id" value="1"/>
         </insert>
         <insert tableName="statistic_reports">
             <column name="report_id" value="4"/>
-            <column name="report_name" value="1404_Errors"/>
+            <column name="report_name" value="${report.template.name.e}"/>
             <column name="test_type_id" value="1"/>
         </insert>
         <insert tableName="statistic_reports">
             <column name="report_id" value="5"/>
-            <column name="report_name" value="1404_ExceptionAnalyzer"/>
+            <column name="report_name" value="${report.template.name.ea}"/>
             <column name="test_type_id" value="1"/>
         </insert>
         <insert tableName="statistic_reports">
             <column name="report_id" value="6"/>
-            <column name="report_name" value="1404_TotalSourceObjectsCount"/>
+            <column name="report_name" value="${report.template.name.tsoc}"/>
             <column name="test_type_id" value="1"/>
         </insert>
         <insert tableName="statistic_reports">
             <column name="report_id" value="7"/>
-            <column name="report_name" value="1404_TotalTargetObjectsCount"/>
+            <column name="report_name" value="${report.template.name.ttoc}"/>
             <column name="test_type_id" value="1"/>
         </insert>
         <insert tableName="statistic_reports">
             <column name="report_id" value="8"/>
-            <column name="report_name" value="1404_TreeValidator"/>
+            <column name="report_name" value="${report.template.name.tv}"/>
             <column name="test_type_id" value="1"/>
         </insert>
     </changeSet>
     <changeSet author="kovalenko-dmytro" id="11">
         <insert tableName="statistic_reports">
             <column name="report_id" value="9"/>
-            <column name="report_name" value="1404_ActionItems"/>
+            <column name="report_name" value="${report.template.name.ai}"/>
             <column name="test_type_id" value="2"/>
         </insert>
         <insert tableName="statistic_reports">
             <column name="report_id" value="10"/>
-            <column name="report_name" value="1404_Apply"/>
+            <column name="report_name" value="${report.template.name.a}"/>
             <column name="test_type_id" value="2"/>
         </insert>
         <insert tableName="statistic_reports">
             <column name="report_id" value="11"/>
-            <column name="report_name" value="1404_CollectedStatistics"/>
+            <column name="report_name" value="${report.template.name.cs}"/>
             <column name="test_type_id" value="2"/>
         </insert>
         <insert tableName="statistic_reports">
             <column name="report_id" value="12"/>
-            <column name="report_name" value="1404_Errors"/>
+            <column name="report_name" value="${report.template.name.e}"/>
             <column name="test_type_id" value="2"/>
         </insert>
         <insert tableName="statistic_reports">
             <column name="report_id" value="13"/>
-            <column name="report_name" value="1404_ExceptionAnalyzer"/>
+            <column name="report_name" value="${report.template.name.ea}"/>
             <column name="test_type_id" value="2"/>
         </insert>
         <insert tableName="statistic_reports">
             <column name="report_id" value="14"/>
-            <column name="report_name" value="1404_TotalSourceObjectsCount"/>
+            <column name="report_name" value="${report.template.name.tsoc}"/>
             <column name="test_type_id" value="2"/>
         </insert>
         <insert tableName="statistic_reports">
             <column name="report_id" value="15"/>
-            <column name="report_name" value="1404_TotalTargetObjectsCount"/>
+            <column name="report_name" value="${report.template.name.ttoc}"/>
             <column name="test_type_id" value="2"/>
         </insert>
         <insert tableName="statistic_reports">
             <column name="report_id" value="16"/>
-            <column name="report_name" value="1404_TreeValidator"/>
+            <column name="report_name" value="${report.template.name.tv}"/>
             <column name="test_type_id" value="2"/>
         </insert>
     </changeSet>
