@@ -14,11 +14,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "statistic_reports")
+@Table(name = "report_templates")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class StatisticReport {
+public class ReportTemplate {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,6 +27,9 @@ public class StatisticReport {
 
     @Column(name = "report_name")
     private String reportName;
+
+    @Column(name = "service_name")
+    private String fullQualifiedServiceName;
 
     @ManyToOne
     @JoinColumn(name = "test_type_id")

@@ -175,101 +175,138 @@
         </createTable>
     </changeSet>
     <changeSet  author="kovalenko-dmytro"  id="9">
-        <createTable  tableName="statistic_reports">
+        <createTable  tableName="report_templates">
             <column  name="report_id"  type="BIGSERIAL">
                 <constraints  nullable="false"  primaryKey="true"/>
             </column>
             <column  name="report_name"  type="VARCHAR">
                 <constraints  nullable="false"/>
             </column>
+            <column name="service_name" type="VARCHAR">
+                <constraints nullable="true" />
+            </column>
             <column  name="test_type_id"  type="BIGSERIAL">
-                <constraints  nullable="false" foreignKeyName="fk_statistic_reports_test_types" references="test_types(test_type_id)"/>
+                <constraints  nullable="false" foreignKeyName="fk_report_templates_test_types" references="test_types(test_type_id)"/>
             </column>
         </createTable>
     </changeSet>
     <changeSet author="kovalenko-dmytro" id="10">
-        <insert tableName="statistic_reports">
+        <insert tableName="report_templates">
             <column name="report_id" value="1"/>
             <column name="report_name" value="${report.template.name.ai}"/>
             <column name="test_type_id" value="1"/>
         </insert>
-        <insert tableName="statistic_reports">
+        <insert tableName="report_templates">
             <column name="report_id" value="2"/>
             <column name="report_name" value="${report.template.name.a}"/>
             <column name="test_type_id" value="1"/>
         </insert>
-        <insert tableName="statistic_reports">
+        <insert tableName="report_templates">
             <column name="report_id" value="3"/>
             <column name="report_name" value="${report.template.name.cs}"/>
             <column name="test_type_id" value="1"/>
         </insert>
-        <insert tableName="statistic_reports">
+        <insert tableName="report_templates">
             <column name="report_id" value="4"/>
             <column name="report_name" value="${report.template.name.e}"/>
             <column name="test_type_id" value="1"/>
         </insert>
-        <insert tableName="statistic_reports">
+        <insert tableName="report_templates">
             <column name="report_id" value="5"/>
             <column name="report_name" value="${report.template.name.ea}"/>
             <column name="test_type_id" value="1"/>
         </insert>
-        <insert tableName="statistic_reports">
+        <insert tableName="report_templates">
             <column name="report_id" value="6"/>
             <column name="report_name" value="${report.template.name.tsoc}"/>
             <column name="test_type_id" value="1"/>
         </insert>
-        <insert tableName="statistic_reports">
+        <insert tableName="report_templates">
             <column name="report_id" value="7"/>
             <column name="report_name" value="${report.template.name.ttoc}"/>
             <column name="test_type_id" value="1"/>
         </insert>
-        <insert tableName="statistic_reports">
+        <insert tableName="report_templates">
             <column name="report_id" value="8"/>
             <column name="report_name" value="${report.template.name.tv}"/>
             <column name="test_type_id" value="1"/>
         </insert>
     </changeSet>
     <changeSet author="kovalenko-dmytro" id="11">
-        <insert tableName="statistic_reports">
+        <insert tableName="report_templates">
             <column name="report_id" value="9"/>
             <column name="report_name" value="${report.template.name.ai}"/>
             <column name="test_type_id" value="2"/>
         </insert>
-        <insert tableName="statistic_reports">
+        <insert tableName="report_templates">
             <column name="report_id" value="10"/>
             <column name="report_name" value="${report.template.name.a}"/>
             <column name="test_type_id" value="2"/>
         </insert>
-        <insert tableName="statistic_reports">
+        <insert tableName="report_templates">
             <column name="report_id" value="11"/>
             <column name="report_name" value="${report.template.name.cs}"/>
             <column name="test_type_id" value="2"/>
         </insert>
-        <insert tableName="statistic_reports">
+        <insert tableName="report_templates">
             <column name="report_id" value="12"/>
             <column name="report_name" value="${report.template.name.e}"/>
             <column name="test_type_id" value="2"/>
         </insert>
-        <insert tableName="statistic_reports">
+        <insert tableName="report_templates">
             <column name="report_id" value="13"/>
             <column name="report_name" value="${report.template.name.ea}"/>
             <column name="test_type_id" value="2"/>
         </insert>
-        <insert tableName="statistic_reports">
+        <insert tableName="report_templates">
             <column name="report_id" value="14"/>
             <column name="report_name" value="${report.template.name.tsoc}"/>
             <column name="test_type_id" value="2"/>
         </insert>
-        <insert tableName="statistic_reports">
+        <insert tableName="report_templates">
             <column name="report_id" value="15"/>
             <column name="report_name" value="${report.template.name.ttoc}"/>
             <column name="test_type_id" value="2"/>
         </insert>
-        <insert tableName="statistic_reports">
+        <insert tableName="report_templates">
             <column name="report_id" value="16"/>
             <column name="report_name" value="${report.template.name.tv}"/>
             <column name="test_type_id" value="2"/>
         </insert>
+    </changeSet>
+    <changeSet author="kovalenko-dmytro" id="12">
+        <update tableName="report_templates">
+            <column name="service_name" value="com.kovalenko.teracot.service.report.impl.ActionItemsTestResultReportService"/>
+            <where>report_id IN (1, 9)</where>
+        </update>
+        <update tableName="report_templates">
+            <column name="service_name" value="com.kovalenko.teracot.service.report.impl.ApplyTestResultReportService"/>
+            <where>report_id IN (2, 10)</where>
+        </update>
+        <update tableName="report_templates">
+            <column name="service_name" value="com.kovalenko.teracot.service.report.impl.CollectedStatisticTestResultReportService"/>
+            <where>report_id IN (3, 11)</where>
+        </update>
+        <update tableName="report_templates">
+            <column name="service_name" value="com.kovalenko.teracot.service.report.impl.ErrorsTestResultReportService"/>
+            <where>report_id IN (4, 12)</where>
+        </update>
+        <update tableName="report_templates">
+            <column name="service_name" value="com.kovalenko.teracot.service.report.impl.ExceptionAnalyzerTestResultReportService"/>
+            <where>report_id IN (5, 13)</where>
+        </update>
+        <update tableName="report_templates">
+            <column name="service_name" value="com.kovalenko.teracot.service.report.impl.TotalSourceObjectsCountTestResultReportService"/>
+            <where>report_id IN (6, 14)</where>
+        </update>
+        <update tableName="report_templates">
+            <column name="service_name" value="com.kovalenko.teracot.service.report.impl.TotalTargetObjectsCountTestResultReportService"/>
+            <where>report_id IN (7, 15)</where>
+        </update>
+        <update tableName="report_templates">
+            <column name="service_name" value="com.kovalenko.teracot.service.report.impl.TreeValidatorTestResultReportService"/>
+            <where>report_id IN (8, 16)</where>
+        </update>
     </changeSet>
 
 </databaseChangeLog>

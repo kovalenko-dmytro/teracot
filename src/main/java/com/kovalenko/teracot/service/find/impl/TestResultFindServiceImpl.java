@@ -1,11 +1,11 @@
-package com.kovalenko.teracot.service.parse.impl;
+package com.kovalenko.teracot.service.find.impl;
 
-import com.kovalenko.teracot.entity.report.StatisticReport;
+import com.kovalenko.teracot.entity.report.ReportTemplate;
 import com.kovalenko.teracot.entity.test.TestType;
 import com.kovalenko.teracot.exception.ApplicationException;
-import com.kovalenko.teracot.service.StatisticReportService;
-import com.kovalenko.teracot.service.parse.TestResultFindService;
-import com.kovalenko.teracot.service.parse.visitor.FileVisitor;
+import com.kovalenko.teracot.service.find.TestResultFindService;
+import com.kovalenko.teracot.service.find.visitor.FileVisitor;
+import com.kovalenko.teracot.service.report.ReportTemplateService;
 import com.kovalenko.teracot.service.test.TestTypeService;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -22,7 +22,7 @@ public class TestResultFindServiceImpl implements TestResultFindService {
 
     private final FileVisitor fileVisitor;
     private final TestTypeService testTypeService;
-    private final StatisticReportService statisticReportService;
+    private final ReportTemplateService reportTemplateService;
     private final MessageSource messageSource;
 
     @Override
@@ -48,10 +48,10 @@ public class TestResultFindServiceImpl implements TestResultFindService {
     }
 
     private void checkUnexpectedReport(TestType testType, Map<String, String> reports) throws ApplicationException {
-        List<StatisticReport> reportTemplates = statisticReportService.findByTestTypeID(testType.getTestTypeID());
+        List<ReportTemplate> reportTemplates = reportTemplateService.findByTestTypeID(testType.getTestTypeID());
         for (String reportName : reports.keySet()) {
             boolean absent = reportTemplates.stream()
-                .map(StatisticReport::getReportName)
+                .map(ReportTemplate::getReportName)
                 .noneMatch(report -> report.equalsIgnoreCase(reportName));
             if (absent) {
                 throw new ApplicationException(

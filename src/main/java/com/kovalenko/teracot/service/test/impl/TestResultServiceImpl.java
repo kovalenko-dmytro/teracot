@@ -3,7 +3,8 @@ package com.kovalenko.teracot.service.test.impl;
 import com.kovalenko.teracot.entity.test.TestResult;
 import com.kovalenko.teracot.exception.ApplicationException;
 import com.kovalenko.teracot.repository.TestResultRepository;
-import com.kovalenko.teracot.service.parse.TestResultFindService;
+import com.kovalenko.teracot.service.find.TestResultFindService;
+import com.kovalenko.teracot.service.report.ReportTemplateService;
 import com.kovalenko.teracot.service.test.TestResultService;
 import com.kovalenko.teracot.service.test.TestResultValidateService;
 import com.kovalenko.teracot.service.test.TestTypeService;
@@ -25,6 +26,7 @@ public class TestResultServiceImpl implements TestResultService {
     private final TestTypeService testTypeService;
     private final TestResultValidateService testResultValidateService;
     private final TestResultFindService testResultFindService;
+    private final ReportTemplateService reportTemplateService;
     private final MessageSource messageSource;
 
     @Override
@@ -39,6 +41,11 @@ public class TestResultServiceImpl implements TestResultService {
         testResultValidateService.validate(testTypeID, path);
         TestResult testResult = saveTestResultInfo(testTypeID, pathToResource);
         Map<String, String> reports = testResultFindService.findReportsFromResource(testTypeID, path);
+        for (Map.Entry<String, String> entry : reports.entrySet()) {
+            reportTemplateService
+                .findReportServiceByReportName(testTypeID, entry.getKey())
+                .saveReportContent(testResult, entry.getValue());
+        }
     }
 
     private TestResult saveTestResultInfo(long testTypeID, String pathToResource) throws ApplicationException {
