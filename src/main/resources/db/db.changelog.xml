@@ -276,35 +276,35 @@
     </changeSet>
     <changeSet author="kovalenko-dmytro" id="12">
         <update tableName="report_templates">
-            <column name="service_name" value="com.kovalenko.teracot.service.report.impl.ActionItemsTestResultReportService"/>
+            <column name="service_name" value="actionItemsTestResultReportService"/>
             <where>report_id IN (1, 9)</where>
         </update>
         <update tableName="report_templates">
-            <column name="service_name" value="com.kovalenko.teracot.service.report.impl.ApplyTestResultReportService"/>
+            <column name="service_name" value="applyTestResultReportService"/>
             <where>report_id IN (2, 10)</where>
         </update>
         <update tableName="report_templates">
-            <column name="service_name" value="com.kovalenko.teracot.service.report.impl.CollectedStatisticTestResultReportService"/>
+            <column name="service_name" value="collectedStatisticTestResultReportService"/>
             <where>report_id IN (3, 11)</where>
         </update>
         <update tableName="report_templates">
-            <column name="service_name" value="com.kovalenko.teracot.service.report.impl.ErrorsTestResultReportService"/>
+            <column name="service_name" value="errorsTestResultReportService"/>
             <where>report_id IN (4, 12)</where>
         </update>
         <update tableName="report_templates">
-            <column name="service_name" value="com.kovalenko.teracot.service.report.impl.ExceptionAnalyzerTestResultReportService"/>
+            <column name="service_name" value="exceptionAnalyzerTestResultReportService"/>
             <where>report_id IN (5, 13)</where>
         </update>
         <update tableName="report_templates">
-            <column name="service_name" value="com.kovalenko.teracot.service.report.impl.TotalSourceObjectsCountTestResultReportService"/>
+            <column name="service_name" value="totalSourceObjectsCountTestResultReportService"/>
             <where>report_id IN (6, 14)</where>
         </update>
         <update tableName="report_templates">
-            <column name="service_name" value="com.kovalenko.teracot.service.report.impl.TotalTargetObjectsCountTestResultReportService"/>
+            <column name="service_name" value="totalTargetObjectsCountTestResultReportService"/>
             <where>report_id IN (7, 15)</where>
         </update>
         <update tableName="report_templates">
-            <column name="service_name" value="com.kovalenko.teracot.service.report.impl.TreeValidatorTestResultReportService"/>
+            <column name="service_name" value="treeValidatorTestResultReportService"/>
             <where>report_id IN (8, 16)</where>
         </update>
     </changeSet>

@@ -29,7 +29,7 @@ public class ReportTemplate {
     private String reportName;
 
     @Column(name = "service_name")
-    private String fullQualifiedServiceName;
+    private String serviceName;
 
     @ManyToOne
     @JoinColumn(name = "test_type_id")

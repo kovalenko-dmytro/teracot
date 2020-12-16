@@ -36,7 +36,7 @@ public class ReportTemplateServiceImpl implements ReportTemplateService {
         Optional<ReportTemplate> reportTemplate =
             reportTemplateRepository.findByTestType_TestTypeIDAndReportName(testTypeID, reportName);
         try {
-            return beanFactory.getBean(reportTemplate.get().getFullQualifiedServiceName(), TestResultReportService.class);
+            return beanFactory.getBean(reportTemplate.get().getServiceName(), TestResultReportService.class);
         } catch (Exception e) {
             Object[] params = {reportName, e.getMessage()};
             throw new ApplicationException(messageSource.getMessage("report.service.not.found", params, Locale.ENGLISH));

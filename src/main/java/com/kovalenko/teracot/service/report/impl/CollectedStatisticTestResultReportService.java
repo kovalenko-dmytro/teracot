@@ -11,7 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
-@Service("com.kovalenko.teracot.service.report.impl.CollectedStatisticTestResultReportService")
+@Service("collectedStatisticTestResultReportService")
 @RequiredArgsConstructor
 public class CollectedStatisticTestResultReportService implements TestResultReportService {
 

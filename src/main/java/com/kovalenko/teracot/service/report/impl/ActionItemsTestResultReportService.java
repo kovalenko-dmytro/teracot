@@ -6,7 +6,7 @@ import com.kovalenko.teracot.service.report.TestResultReportService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-@Service("com.kovalenko.teracot.service.report.impl.ActionItemsTestResultReportService")
+@Service("actionItemsTestResultReportService")
 @RequiredArgsConstructor
 public class ActionItemsTestResultReportService implements TestResultReportService {
 
