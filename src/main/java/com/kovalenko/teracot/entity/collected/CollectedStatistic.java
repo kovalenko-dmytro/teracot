@@ -3,6 +3,7 @@ package com.kovalenko.teracot.entity.collected;
 import com.kovalenko.teracot.entity.ai.ActionItemCount;
 import com.kovalenko.teracot.entity.test.TestResult;
 import com.kovalenko.teracot.entity.time.TimeInfo;
+import java.util.LinkedHashSet;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -15,14 +16,18 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "collected_statistics")
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
+@Builder
 public class CollectedStatistic {
 
     @Id
@@ -72,11 +77,11 @@ public class CollectedStatistic {
     @Column(name = "source_size")
     private String sourceSize;
 
-    @OneToMany(mappedBy = "collectedStatistic", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    private Set<TimeInfo> timeInfo;
+    @OneToMany(mappedBy = "collectedStatistic", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<TimeInfo> timeInfo = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "collectedStatistic", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    private Set<ActionItemCount> actionItemCounts;
+    @OneToMany(mappedBy = "collectedStatistic", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<ActionItemCount> actionItemCounts = new LinkedHashSet<>();
 
     @OneToOne
     @JoinColumn(name = "test_result_id")

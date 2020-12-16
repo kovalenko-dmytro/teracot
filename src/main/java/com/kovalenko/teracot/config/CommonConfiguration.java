@@ -12,7 +12,9 @@ public class CommonConfiguration {
     public PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
         PropertySourcesPlaceholderConfigurer properties =
             new PropertySourcesPlaceholderConfigurer();
-        properties.setLocation(new FileSystemResource("C:\\java\\projects\\teracotConfig\\teracot.properties"));
+        properties.setLocations(
+            new FileSystemResource("C:\\java\\projects\\teracotConfig\\teracot.properties"),
+            new FileSystemResource("C:\\java\\projects\\teracotConfig\\cs-template.properties"));
         properties.setIgnoreResourceNotFound(false);
         return properties;
     }

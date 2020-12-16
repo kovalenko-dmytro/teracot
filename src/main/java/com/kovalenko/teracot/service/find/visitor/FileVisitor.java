@@ -80,7 +80,7 @@ public class FileVisitor extends SimpleFileVisitor<Path> {
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
         String line;
         while ((line = reader.readLine()) != null) {
-            out.append(line);
+            out.append(line).append(System.lineSeparator());
         }
         return out.toString();
     }
