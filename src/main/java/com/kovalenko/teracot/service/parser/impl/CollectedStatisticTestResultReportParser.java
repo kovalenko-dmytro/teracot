@@ -55,31 +55,15 @@ public class CollectedStatisticTestResultReportParser implements TestResultRepor
     private String targetSizeFieldName;
     @Value("${cs.template.field.source.size}")
     private String sourceSizeFieldName;
-    @Value("${cs.template.field.total.operation.time}")
-    private String totalOperationTimeFieldName;
-    @Value("${cs.template.field.loading.time}")
-    private String loadingTimeFieldName;
-    @Value("${cs.template.field.conversion.time}")
-    private String conversionTimeFieldName;
-    @Value("${cs.template.field.apply.time}")
-    private String applyTimeFieldName;
-    @Value("${cs.template.field.saving.time}")
-    private String savingTimeFieldName;
-    @Value("${cs.template.field.total.without.loading.time}")
-    private String totalWithoutLoadingTimeFieldName;
-    @Value("${cs.template.field.total.time}")
-    private String totalTimeFieldName;
     @Value("${cs.template.field.action.item.code}")
     private String actionItemCodeFieldName;
-    @Value("${cs.template.field.action.item.count}")
-    private String actionItemCountFieldName;
 
     private final MessageSource messageSource;
     private final TimeInfoTypeRepository timeInfoTypeRepository;
 
     @Override
     public CollectedStatistic parse(String reportContent) throws ApplicationException {
-        return CollectedStatistic.builder()
+        CollectedStatistic collectedStatistic = CollectedStatistic.builder()
             .version(findFieldValue(this.versionFieldName, reportContent))
             .dialectPair(findFieldValue(this.dialectPairFieldName, reportContent))
             .sourceConnection(findFieldValue(this.sourceConnectionFieldName, reportContent))
@@ -94,38 +78,58 @@ public class CollectedStatisticTestResultReportParser implements TestResultRepor
             .projectSize(findFieldValue(this.projectSizeFieldName, reportContent))
             .targetSize(findFieldValue(this.targetSizeFieldName, reportContent))
             .sourceSize(findFieldValue(this.sourceSizeFieldName, reportContent))
-            .timeInfo(parseTimeInfo(reportContent))
-            .actionItemCounts(parseActionItemCounts(reportContent))
             .build();
+
+        collectedStatistic.setTimeInfo(parseTimeInfo(reportContent, collectedStatistic));
+        collectedStatistic.setActionItemCounts(parseActionItemCounts(reportContent, collectedStatistic));
+
+        return collectedStatistic;
     }
 
-    private Set<ActionItemCount> parseActionItemCounts(String reportContent) {
+    private Set<ActionItemCount> parseActionItemCounts(String reportContent, CollectedStatistic collectedStatistic) throws ApplicationException {
         Set<ActionItemCount> actionItemCounts = new LinkedHashSet<>();
-        Arrays.stream(reportContent.split(System.lineSeparator()))
-            .dropWhile(line -> !line.contains(this.actionItemCodeFieldName)).skip(1)
-            .forEach(line -> {
-                String[] array = line.split(COMMA);
-                actionItemCounts.add(ActionItemCount.builder().aiName(array[0]).aiCount(Integer.parseInt(array[1])).build());
-            });
-        return actionItemCounts;
+        try {
+            Arrays.stream(reportContent.split(System.lineSeparator()))
+                .dropWhile(line -> !line.contains(this.actionItemCodeFieldName)).skip(1)
+                .forEach(line -> {
+                    String[] array = line.split(COMMA);
+                    actionItemCounts.add(
+                        ActionItemCount.builder()
+                            .aiName(array[0])
+                            .aiCount(Integer.parseInt(array[1]))
+                            .collectedStatistic(collectedStatistic)
+                            .build());
+                });
+            return actionItemCounts;
+        } catch (Exception e) {
+            throw new ApplicationException(
+                messageSource.getMessage("action.item.parse.error", new Object[]{e.getMessage()}, Locale.ENGLISH));
+        }
     }
 
-    private Set<TimeInfo> parseTimeInfo(String reportContent) throws ApplicationException {
+    private Set<TimeInfo> parseTimeInfo(String reportContent, CollectedStatistic collectedStatistic) throws ApplicationException {
         Set<TimeInfo> timeInfo = new LinkedHashSet<>();
-        for (TimeInfoType timeInfoType : timeInfoTypeRepository.findAll()) {
-            timeInfo.add(
-                TimeInfo.builder()
-                    .timeValue(findFieldValue(timeInfoType.getTimeInfoTypeName(), reportContent))
-                    .timeInfoType(timeInfoType)
-                    .build());
+        try {
+            for (TimeInfoType timeInfoType : timeInfoTypeRepository.findAll()) {
+                timeInfo.add(
+                    TimeInfo.builder()
+                        .timeValue(findFieldValue(timeInfoType.getTimeInfoTypeName(), reportContent))
+                        .timeInfoType(timeInfoType)
+                        .collectedStatistic(collectedStatistic)
+                        .build());
+            }
+            return timeInfo;
+        } catch (Exception e) {
+            throw new ApplicationException(
+                messageSource.getMessage("time.info.parse.error", new Object[]{e.getMessage()}, Locale.ENGLISH));
         }
-        return timeInfo;
     }
 
     private String findFieldValue(String fieldName, String reportContent) throws ApplicationException {
         return Optional.ofNullable(getValue(fieldName, reportContent))
             .orElseThrow(() ->
-                new ApplicationException(messageSource.getMessage("", new Object[]{fieldName}, Locale.ENGLISH)));
+                new ApplicationException(
+                    messageSource.getMessage("field.value.parse.error", new Object[]{fieldName}, Locale.ENGLISH)));
     }
 
     private String getValue(String fieldName, String reportContent) {

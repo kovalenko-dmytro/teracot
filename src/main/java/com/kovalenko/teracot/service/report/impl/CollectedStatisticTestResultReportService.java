@@ -22,8 +22,6 @@ public class CollectedStatisticTestResultReportService implements TestResultRepo
     public void saveReportContent(TestResult testResult, String reportContent) throws ApplicationException {
         CollectedStatistic result = collectedStatisticTestResultReportParser.parse(reportContent);
         result.setTestResult(testResult);
-        result.getTimeInfo().forEach(timeInfo -> timeInfo.setCollectedStatistic(result));
-        result.getActionItemCounts().forEach(actionItemCount -> actionItemCount.setCollectedStatistic(result));
         collectedStatisticRepository.save(result);
     }
 }
