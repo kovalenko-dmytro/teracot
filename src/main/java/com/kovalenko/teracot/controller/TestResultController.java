@@ -1,6 +1,7 @@
 package com.kovalenko.teracot.controller;
 
 import com.kovalenko.teracot.exception.ApplicationException;
+import com.kovalenko.teracot.service.report.ReportTemplateService;
 import com.kovalenko.teracot.service.test.TestResultService;
 import com.kovalenko.teracot.service.test.TestTypeService;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,7 @@ public class TestResultController {
 
     private final TestResultService testResultService;
     private final TestTypeService testTypeService;
+    private final ReportTemplateService reportTemplateService;
 
     @GetMapping
     public ModelAndView getTestResults(@PathVariable(name = "testTypeID") long testTypeID) {
@@ -29,7 +31,21 @@ public class TestResultController {
             view.addObject("testType", testTypeService.findById(testTypeID));
             view.setViewName("/pages/tests/test-results");
         } catch (ApplicationException e) {
-            view.setViewName("index");
+            view.setViewName("/pages/tests/index");
+        }
+        return view;
+    }
+
+    @GetMapping(value = "/{testResultID}")
+    public ModelAndView getTestResultByID(@PathVariable(name = "testTypeID") long testTypeID,
+                                          @PathVariable(name = "testResultID") long testResultID) {
+        ModelAndView view = new ModelAndView();
+        try {
+            view.addObject("testType", testTypeService.findById(testTypeID));
+            view.addObject("reports", reportTemplateService.getAvailableReports(testTypeID, testResultID));
+            view.setViewName("/pages/tests/test-result");
+        } catch (ApplicationException e) {
+            view.setViewName("/pages/tests/index");
         }
         return view;
     }

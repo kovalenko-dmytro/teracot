@@ -1,5 +1,6 @@
 package com.kovalenko.teracot.service.report.impl;
 
+import com.kovalenko.teracot.dto.report.ReportTemplateDTO;
 import com.kovalenko.teracot.entity.report.ReportTemplate;
 import com.kovalenko.teracot.exception.ApplicationException;
 import com.kovalenko.teracot.repository.ReportTemplateRepository;
@@ -8,6 +9,7 @@ import com.kovalenko.teracot.service.report.TestResultReportService;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.context.MessageSource;
@@ -41,5 +43,17 @@ public class ReportTemplateServiceImpl implements ReportTemplateService {
             Object[] params = {reportName, e.getMessage()};
             throw new ApplicationException(messageSource.getMessage("report.service.not.found", params, Locale.ENGLISH));
         }
+    }
+
+    @Override
+    public List<ReportTemplateDTO> getAvailableReports(long testTypeID, long testResultID) {
+        return findByTestTypeID(testTypeID).stream()
+            .map(reportTemplate ->
+                ReportTemplateDTO.builder()
+                    .reportID(reportTemplate.getReportID())
+                    .reportName(reportTemplate.getReportName().substring(reportTemplate.getReportName().indexOf("_") + 1))
+                    .testResultID(testResultID)
+                    .build())
+            .collect(Collectors.toList());
     }
 }
