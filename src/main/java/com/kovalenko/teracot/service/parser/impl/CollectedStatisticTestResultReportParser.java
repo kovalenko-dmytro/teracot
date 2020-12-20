@@ -1,5 +1,6 @@
 package com.kovalenko.teracot.service.parser.impl;
 
+import com.kovalenko.teracot.dto.collected.CollectedStatisticFieldNameDTO;
 import com.kovalenko.teracot.entity.ai.ActionItemCount;
 import com.kovalenko.teracot.entity.collected.CollectedStatistic;
 import com.kovalenko.teracot.entity.time.TimeInfo;
@@ -9,10 +10,10 @@ import com.kovalenko.teracot.repository.TimeInfoTypeRepository;
 import com.kovalenko.teracot.service.parser.TestResultReportParser;
 import java.text.MessageFormat;
 import java.util.Arrays;
-import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +23,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class CollectedStatisticTestResultReportParser implements TestResultReportParser<CollectedStatistic> {
+public class CollectedStatisticTestResultReportParser implements TestResultReportParser<CollectedStatistic, CollectedStatisticFieldNameDTO> {
 
     private static final String PATTERN = ".*{0},.+";
     private static final String COMMA = ",";
@@ -51,12 +52,30 @@ public class CollectedStatisticTestResultReportParser implements TestResultRepor
     private String nullPointerExceptionsFieldName;
     @Value("${cs.template.field.project.size}")
     private String projectSizeFieldName;
+    @Value("${cs.template.field.project.size.name}")
+    private String projectSizeNameFieldName;
     @Value("${cs.template.field.target.size}")
     private String targetSizeFieldName;
     @Value("${cs.template.field.source.size}")
     private String sourceSizeFieldName;
+    @Value("${cs.template.field.total.operation.time}")
+    private String totalOperationTimeFieldName;
+    @Value("${cs.template.field.loading.time}")
+    private String loadingTimeFieldName;
+    @Value("${cs.template.field.conversion.time}")
+    private String conversionTimeFieldName;
+    @Value("${cs.template.field.apply.time}")
+    private String applyTimeFieldName;
+    @Value("${cs.template.field.saving.time}")
+    private String savingTimeFieldName;
+    @Value("${cs.template.field.total.without.loading.time}")
+    private String totalWithoutLoadingTimeFieldName;
+    @Value("${cs.template.field.total.time}")
+    private String totalTimeFieldName;
     @Value("${cs.template.field.action.item.code}")
     private String actionItemCodeFieldName;
+    @Value("${cs.template.field.action.item.count}")
+    private String actionItemCountFieldName;
 
     private final MessageSource messageSource;
     private final TimeInfoTypeRepository timeInfoTypeRepository;
@@ -86,8 +105,37 @@ public class CollectedStatisticTestResultReportParser implements TestResultRepor
         return collectedStatistic;
     }
 
-    private Set<ActionItemCount> parseActionItemCounts(String reportContent, CollectedStatistic collectedStatistic) throws ApplicationException {
-        Set<ActionItemCount> actionItemCounts = new LinkedHashSet<>();
+    @Override
+    public CollectedStatisticFieldNameDTO getReportFieldNames() {
+        return CollectedStatisticFieldNameDTO.builder()
+            .versionFieldName(versionFieldName)
+            .dialectPairFieldName(dialectPairFieldName)
+            .sourceConnectionFieldName(sourceConnectionFieldName)
+            .targetConnectionFieldName(targetConnectionFieldName)
+            .gcMemoryFieldName(gcMemoryFieldName)
+            .treeValidatorFieldName(treeValidatorFieldName)
+            .allObjectsCountFieldName(allObjectsCountFieldName)
+            .transformedObjectsFieldName(transformedObjectsFieldName)
+            .appliedObjectsFieldName(appliedObjectsFieldName)
+            .transformerFromErrorReportFieldName(transformerFromErrorReportFieldName)
+            .nullPointerExceptionsFieldName(nullPointerExceptionsFieldName)
+            .projectSizeNameFieldName(projectSizeNameFieldName)
+            .targetSizeFieldName(targetSizeFieldName)
+            .sourceSizeFieldName(sourceSizeFieldName)
+            .totalOperationTimeFieldName(totalOperationTimeFieldName)
+            .loadingTimeFieldName(loadingTimeFieldName)
+            .conversionTimeFieldName(conversionTimeFieldName)
+            .applyTimeFieldName(applyTimeFieldName)
+            .savingTimeFieldName(savingTimeFieldName)
+            .totalWithoutLoadingTimeFieldName(totalWithoutLoadingTimeFieldName)
+            .totalTimeFieldName(totalTimeFieldName)
+            .actionItemCodeFieldName(actionItemCodeFieldName)
+            .actionItemCountFieldName(actionItemCountFieldName)
+            .build();
+    }
+
+    private List<ActionItemCount> parseActionItemCounts(String reportContent, CollectedStatistic collectedStatistic) throws ApplicationException {
+        List<ActionItemCount> actionItemCounts = new LinkedList<>();
         try {
             Arrays.stream(reportContent.split(System.lineSeparator()))
                 .dropWhile(line -> !line.contains(this.actionItemCodeFieldName)).skip(1)
@@ -107,8 +155,8 @@ public class CollectedStatisticTestResultReportParser implements TestResultRepor
         }
     }
 
-    private Set<TimeInfo> parseTimeInfo(String reportContent, CollectedStatistic collectedStatistic) throws ApplicationException {
-        Set<TimeInfo> timeInfo = new LinkedHashSet<>();
+    private List<TimeInfo> parseTimeInfo(String reportContent, CollectedStatistic collectedStatistic) throws ApplicationException {
+        List<TimeInfo> timeInfo = new LinkedList<>();
         try {
             for (TimeInfoType timeInfoType : timeInfoTypeRepository.findAll()) {
                 timeInfo.add(

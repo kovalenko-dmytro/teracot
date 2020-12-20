@@ -1,5 +1,6 @@
 package com.kovalenko.teracot.service.report.impl;
 
+import com.kovalenko.teracot.dto.report.ReportInfoDTO;
 import com.kovalenko.teracot.dto.report.ReportTemplateDTO;
 import com.kovalenko.teracot.entity.report.ReportTemplate;
 import com.kovalenko.teracot.exception.ApplicationException;
@@ -34,6 +35,14 @@ public class ReportTemplateServiceImpl implements ReportTemplateService {
     }
 
     @Override
+    public ReportTemplate findByReportID(long reportID) throws ApplicationException {
+        return reportTemplateRepository.findById(reportID)
+            .orElseThrow(() ->
+                new ApplicationException(
+                    messageSource.getMessage("report.not.exist", new Object[] {reportID}, Locale.ENGLISH)));
+    }
+
+    @Override
     public TestResultReportService findReportServiceByReportName(long testTypeID, String reportName) throws ApplicationException {
         Optional<ReportTemplate> reportTemplate =
             reportTemplateRepository.findByTestType_TestTypeIDAndReportName(testTypeID, reportName);
@@ -51,9 +60,16 @@ public class ReportTemplateServiceImpl implements ReportTemplateService {
             .map(reportTemplate ->
                 ReportTemplateDTO.builder()
                     .reportID(reportTemplate.getReportID())
-                    .reportName(reportTemplate.getReportName().substring(reportTemplate.getReportName().indexOf("_") + 1))
+                    .reportName(reportTemplate.getReportName())
                     .testResultID(testResultID)
                     .build())
             .collect(Collectors.toList());
+    }
+
+    @Override
+    public ReportInfoDTO getReportInfo(long testTypeID, long testResultID, long reportID) throws ApplicationException {
+        ReportTemplate reportTemplate = findByReportID(reportID);
+        return findReportServiceByReportName(testTypeID, reportTemplate.getReportName())
+            .getReportInfo(reportTemplate, testResultID, testTypeID);
     }
 }

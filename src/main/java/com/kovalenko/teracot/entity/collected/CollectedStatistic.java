@@ -1,10 +1,12 @@
 package com.kovalenko.teracot.entity.collected;
 
+import com.kovalenko.teracot.dto.collected.CollectedStatisticDTO;
+import com.kovalenko.teracot.entity.DTOConvertible;
 import com.kovalenko.teracot.entity.ai.ActionItemCount;
 import com.kovalenko.teracot.entity.test.TestResult;
 import com.kovalenko.teracot.entity.time.TimeInfo;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.LinkedList;
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -28,7 +30,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class CollectedStatistic {
+public class CollectedStatistic implements DTOConvertible<CollectedStatisticDTO> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -78,12 +80,35 @@ public class CollectedStatistic {
     private String sourceSize;
 
     @OneToMany(mappedBy = "collectedStatistic", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<TimeInfo> timeInfo = new LinkedHashSet<>();
+    private List<TimeInfo> timeInfo = new LinkedList<>();
 
     @OneToMany(mappedBy = "collectedStatistic", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<ActionItemCount> actionItemCounts = new LinkedHashSet<>();
+    private List<ActionItemCount> actionItemCounts = new LinkedList<>();
 
     @OneToOne
     @JoinColumn(name = "test_result_id")
     private TestResult testResult;
+
+
+    @Override
+    public CollectedStatisticDTO convertToDTO() {
+        return CollectedStatisticDTO.builder()
+            .version(this.version)
+            .dialectPair(this.dialectPair)
+            .sourceConnection(this.sourceConnection)
+            .targetConnection(this.targetConnection)
+            .gcMemory(this.gcMemory)
+            .treeValidatorState(this.treeValidatorState)
+            .allObjectsCount(this.allObjectsCount)
+            .transformedObjectsCount(this.transformedObjectsCount)
+            .appliedObjectsCount(this.appliedObjectsCount)
+            .transformerFromErrorReportCount(this.transformerFromErrorReportCount)
+            .nullPointerExceptionsCount(this.nullPointerExceptionsCount)
+            .projectSize(this.projectSize)
+            .targetSize(this.targetSize)
+            .sourceSize(this.sourceSize)
+            .timeInfo(this.timeInfo)
+            .actionItemCounts(this.actionItemCounts)
+            .build();
+    }
 }

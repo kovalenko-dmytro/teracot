@@ -7,22 +7,24 @@
 </head>
 <body>
 <div layout:fragment="content">
-    <div class="container">
+    <div class="container-fluid">
         <div class="row align-items-center m-3">
             <div class="col-10 mx-auto">
                 <h2 class="text-center">Test reports for <span th:text="${testType.testTypeName}"></span></h2>
             </div>
         </div>
-        <div class="row align-items-center">
-            <div class="col-4">
+        <div class="row ">
+            <div class="col-3align-items-center">
                 <a type="button" th:each="report: ${reports}"
                    th:href="@{'/tests/' + ${testType.testTypeID} + '/test-results/' + ${testResultID} + '/' + ${report.reportID}}"
                    class="btn btn-info btn-lg btn-block"
                    th:text="${report.reportName}">
                 </a>
             </div>
-            <div class="col-8 mx-auto">
-
+            <div class="col-9">
+                <th:block th:if="${reportInfo != null && (reportInfo.reportID == 3 || reportInfo.reportID == 11)}">
+                    <div  th:insert="pages/tests/reports/cs :: cs">This header content is going to be replaced.</div>
+                </th:block>
             </div>
         </div>
     </div>

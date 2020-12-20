@@ -50,6 +50,22 @@ public class TestResultController {
         return view;
     }
 
+    @GetMapping(value = "/{testResultID}/{reportID}")
+    public ModelAndView getTestResultByID(@PathVariable(name = "testTypeID") long testTypeID,
+                                          @PathVariable(name = "testResultID") long testResultID,
+                                          @PathVariable(name = "reportID") long reportID) {
+        ModelAndView view = new ModelAndView();
+        try {
+            view.addObject("testType", testTypeService.findById(testTypeID));
+            view.addObject("reports", reportTemplateService.getAvailableReports(testTypeID, testResultID));
+            view.addObject("reportInfo", reportTemplateService.getReportInfo(testTypeID, testResultID, reportID));
+            view.setViewName("/pages/tests/test-result");
+        } catch (ApplicationException e) {
+            view.setViewName("/pages/tests/index");
+        }
+        return view;
+    }
+
     @PostMapping
     @ResponseBody
     public void uploadTestResults(@PathVariable(name = "testTypeID") long testTypeID,
