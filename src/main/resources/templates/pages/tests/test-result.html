@@ -11,10 +11,37 @@
         <div class="row align-items-center m-3">
             <div class="col-10 mx-auto">
                 <h2 class="text-center">Test reports for <span th:text="${testType.testTypeName}"></span></h2>
+
             </div>
         </div>
         <div class="row ">
-            <div class="col-3align-items-center">
+            <div class="col-3 align-items-center">
+                <form method="POST" th:action="@{'/tests/' + ${testType.testTypeID} + '/test-results/' + ${testResultID}}" >
+                    <fieldset>
+                        <legend class="text-center">Test result processing</legend>
+                        <div class="form-group row">
+                            <label for="devBuildNumber" class="col-sm-4 col-form-label">Dev. build #</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" id="devBuildNumber" name="devBuildNumber" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="testBuildNumber" class="col-sm-4 col-form-label">Test build #</label>
+                            <div class="col-sm-8 align-items-center">
+                                <input type="text" class="form-control" id="testBuildNumber" name="testBuildNumber" />
+                            </div>
+                        </div>
+                    </fieldset>
+                    <div class="form-group row">
+                        <div class="col-sm-12 justify-content-around">
+                            <input type="submit" class="btn btn-block btn-success" value="Apply"/>
+                        </div>
+                    </div>
+                </form>
+                <form class="mb-3" th:action="@{'/tests/' + ${testType.testTypeID} + '/test-results/' + ${testResultID} + '/delete'}">
+                    <input type="hidden" name="_method" value="delete">
+                    <input class="btn btn-danger btn-block" type="submit" value="Delete test result without applying"/>
+                </form>
                 <a type="button" th:each="report: ${reports}"
                    th:href="@{'/tests/' + ${testType.testTypeID} + '/test-results/' + ${testResultID} + '/' + ${report.reportID}}"
                    class="btn btn-info btn-lg btn-block"

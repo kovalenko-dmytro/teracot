@@ -8,4 +8,6 @@ public interface TestResultService {
 
     List<TestResult> getTestResults(long testTypeID);
     void uploadTestResults(long testTypeID, String pathToResource) throws ApplicationException;
+    void apply(long testResultID, String devBuildNumber, String testBuildNumber) throws ApplicationException;
+    void deleteByTestResultID(long testResultID);
 }

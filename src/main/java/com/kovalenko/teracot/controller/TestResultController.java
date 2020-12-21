@@ -50,6 +50,30 @@ public class TestResultController {
         return view;
     }
 
+    @PostMapping(value = "/{testResultID}")
+    public ModelAndView apply(@PathVariable(name = "testTypeID") long testTypeID,
+                              @PathVariable(name = "testResultID") long testResultID,
+                              @RequestParam("devBuildNumber") String devBuildNumber,
+                              @RequestParam("testBuildNumber") String testBuildNumber) {
+        ModelAndView view = new ModelAndView();
+        try {
+            testResultService.apply(testResultID, devBuildNumber, testBuildNumber);
+            view.setViewName("redirect:/tests/" + testTypeID + "/applied-info");
+        } catch (ApplicationException e) {
+            view.setViewName("redirect:/tests/" + testTypeID + "/test-results");
+        }
+        return view;
+    }
+
+    @GetMapping(value = "/{testResultID}/delete")
+    public ModelAndView delete(@PathVariable(name = "testTypeID") long testTypeID,
+                              @PathVariable(name = "testResultID") long testResultID) {
+        ModelAndView view = new ModelAndView();
+        testResultService.deleteByTestResultID(testResultID);
+        view.setViewName("redirect:/tests/" + testTypeID + "/test-results");
+        return view;
+    }
+
     @GetMapping(value = "/{testResultID}/{reportID}")
     public ModelAndView getTestResultByID(@PathVariable(name = "testTypeID") long testTypeID,
                                           @PathVariable(name = "testResultID") long testResultID,

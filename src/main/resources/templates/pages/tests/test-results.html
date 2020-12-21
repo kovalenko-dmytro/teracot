@@ -11,6 +11,9 @@
         <div class="row align-items-center m-3">
             <div class="col-10 mx-auto">
                 <h2 class="text-center">Test results for <span th:text="${testType.testTypeName}"></span></h2>
+                <div class="alert alert-info text-center" role="alert" th:if="${#lists.isEmpty(testResults)}">
+                    No applied test results
+                </div>
             </div>
         </div>
         <div class="row align-items-center m-3">
@@ -35,7 +38,7 @@
                             <td class="text-right" th:text="${result.dialectPair}"></td>
                             <td class="text-right" th:text="${result.created}"></td>
                             <td class="text-right" th:text="${result.isApplied}"></td>
-                            <td><a class="btn btn-sm btn-primary btn-block" th:href="@{'/tests/' + ${testType.testTypeID} + '/test-results/' + ${result.testResultID}}">View for apply</a>
+                            <td><a class="btn btn-sm btn-primary btn-block" th:href="@{'/tests/' + ${testType.testTypeID} + '/test-results/' + ${result.testResultID}}">View for apply/delete</a>
                             </td>
                         </tr>
                         </tbody>

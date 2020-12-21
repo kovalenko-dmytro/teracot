@@ -13,7 +13,8 @@
                     <tr>
                         <th class="text-center">Parameter names</th>
                         <th colspan="2" class="text-center">Current report</th>
-                        <th colspan="2" class="text-center">Last applied report</th>
+                        <th colspan="2" th:if="${reportInfo.collectedStatisticReportInfoDTO.lastApplied != null}"
+                            class="text-center">Last applied report</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -22,7 +23,7 @@
                             th:text="${reportInfo.collectedStatisticReportInfoDTO.fieldNames.versionFieldName}"></td>
                         <td colspan="2" class="text-right"
                             th:text="${reportInfo.collectedStatisticReportInfoDTO.current.version}"></td>
-                        <td colspan="2" class="text-right"
+                        <td colspan="2" class="text-right" th:if="${reportInfo.collectedStatisticReportInfoDTO.lastApplied != null}"
                             th:text="${reportInfo.collectedStatisticReportInfoDTO.lastApplied.version}"></td>
                     </tr>
                     <tr>
@@ -30,7 +31,7 @@
                             th:text="${reportInfo.collectedStatisticReportInfoDTO.fieldNames.dialectPairFieldName}"></td>
                         <td colspan="2" class="text-right"
                             th:text="${reportInfo.collectedStatisticReportInfoDTO.current.dialectPair}"></td>
-                        <td colspan="2" class="text-right"
+                        <td colspan="2" class="text-right" th:if="${reportInfo.collectedStatisticReportInfoDTO.lastApplied != null}"
                             th:text="${reportInfo.collectedStatisticReportInfoDTO.lastApplied.dialectPair}"></td>
                     </tr>
                     <tr>
@@ -38,7 +39,7 @@
                             th:text="${reportInfo.collectedStatisticReportInfoDTO.fieldNames.sourceConnectionFieldName}"></td>
                         <td colspan="2" class="text-right"
                             th:text="${reportInfo.collectedStatisticReportInfoDTO.current.sourceConnection}"></td>
-                        <td colspan="2" class="text-right"
+                        <td colspan="2" class="text-right" th:if="${reportInfo.collectedStatisticReportInfoDTO.lastApplied != null}"
                             th:text="${reportInfo.collectedStatisticReportInfoDTO.lastApplied.sourceConnection}"></td>
                     </tr>
                     <tr>
@@ -46,7 +47,7 @@
                             th:text="${reportInfo.collectedStatisticReportInfoDTO.fieldNames.targetConnectionFieldName}"></td>
                         <td colspan="2" class="text-right"
                             th:text="${reportInfo.collectedStatisticReportInfoDTO.current.targetConnection}"></td>
-                        <td colspan="2" class="text-right"
+                        <td colspan="2" class="text-right" th:if="${reportInfo.collectedStatisticReportInfoDTO.lastApplied != null}"
                             th:text="${reportInfo.collectedStatisticReportInfoDTO.lastApplied.targetConnection}"></td>
                     </tr>
                     <tr>
@@ -54,7 +55,7 @@
                             th:text="${reportInfo.collectedStatisticReportInfoDTO.fieldNames.gcMemoryFieldName}"></td>
                         <td colspan="2" class="text-right"
                             th:text="${reportInfo.collectedStatisticReportInfoDTO.current.gcMemory}"></td>
-                        <td colspan="2" class="text-right"
+                        <td colspan="2" class="text-right" th:if="${reportInfo.collectedStatisticReportInfoDTO.lastApplied != null}"
                             th:text="${reportInfo.collectedStatisticReportInfoDTO.lastApplied.gcMemory}"></td>
                     </tr>
                     <tr>
@@ -62,7 +63,7 @@
                             th:text="${reportInfo.collectedStatisticReportInfoDTO.fieldNames.treeValidatorFieldName}"></td>
                         <td colspan="2" class="text-right"
                             th:text="${reportInfo.collectedStatisticReportInfoDTO.current.treeValidatorState}"></td>
-                        <td colspan="2" class="text-right"
+                        <td colspan="2" class="text-right" th:if="${reportInfo.collectedStatisticReportInfoDTO.lastApplied != null}"
                             th:text="${reportInfo.collectedStatisticReportInfoDTO.lastApplied.treeValidatorState}"></td>
                     </tr>
                     <tr>
@@ -70,7 +71,7 @@
                             th:text="${reportInfo.collectedStatisticReportInfoDTO.fieldNames.allObjectsCountFieldName}"></td>
                         <td colspan="2" class="text-right"
                             th:text="${reportInfo.collectedStatisticReportInfoDTO.current.allObjectsCount}"></td>
-                        <td colspan="2" class="text-right"
+                        <td colspan="2" class="text-right" th:if="${reportInfo.collectedStatisticReportInfoDTO.lastApplied != null}"
                             th:text="${reportInfo.collectedStatisticReportInfoDTO.lastApplied.allObjectsCount}"></td>
                     </tr>
                     <tr>
@@ -78,7 +79,7 @@
                             th:text="${reportInfo.collectedStatisticReportInfoDTO.fieldNames.transformedObjectsFieldName}"></td>
                         <td colspan="2" class="text-right"
                             th:text="${reportInfo.collectedStatisticReportInfoDTO.current.transformedObjectsCount}"></td>
-                        <td colspan="2" class="text-right"
+                        <td colspan="2" class="text-right" th:if="${reportInfo.collectedStatisticReportInfoDTO.lastApplied != null}"
                             th:text="${reportInfo.collectedStatisticReportInfoDTO.lastApplied.transformedObjectsCount}"></td>
                     </tr>
                     <tr>
@@ -86,7 +87,7 @@
                             th:text="${reportInfo.collectedStatisticReportInfoDTO.fieldNames.appliedObjectsFieldName}"></td>
                         <td colspan="2" class="text-right"
                             th:text="${reportInfo.collectedStatisticReportInfoDTO.current.appliedObjectsCount}"></td>
-                        <td colspan="2" class="text-right"
+                        <td colspan="2" class="text-right" th:if="${reportInfo.collectedStatisticReportInfoDTO.lastApplied != null}"
                             th:text="${reportInfo.collectedStatisticReportInfoDTO.lastApplied.appliedObjectsCount}"></td>
                     </tr>
                     <tr>
@@ -94,7 +95,7 @@
                             th:text="${reportInfo.collectedStatisticReportInfoDTO.fieldNames.transformerFromErrorReportFieldName}"></td>
                         <td colspan="2" class="text-right"
                             th:text="${reportInfo.collectedStatisticReportInfoDTO.current.transformerFromErrorReportCount}"></td>
-                        <td colspan="2" class="text-right"
+                        <td colspan="2" class="text-right" th:if="${reportInfo.collectedStatisticReportInfoDTO.lastApplied != null}"
                             th:text="${reportInfo.collectedStatisticReportInfoDTO.lastApplied.transformerFromErrorReportCount}"></td>
                     </tr>
                     <tr>
@@ -102,7 +103,7 @@
                             th:text="${reportInfo.collectedStatisticReportInfoDTO.fieldNames.nullPointerExceptionsFieldName}"></td>
                         <td colspan="2" class="text-right"
                             th:text="${reportInfo.collectedStatisticReportInfoDTO.current.nullPointerExceptionsCount}"></td>
-                        <td colspan="2" class="text-right"
+                        <td colspan="2" class="text-right" th:if="${reportInfo.collectedStatisticReportInfoDTO.lastApplied != null}"
                             th:text="${reportInfo.collectedStatisticReportInfoDTO.lastApplied.nullPointerExceptionsCount}"></td>
                     </tr>
                     <tr>
@@ -110,7 +111,7 @@
                             th:text="${reportInfo.collectedStatisticReportInfoDTO.fieldNames.projectSizeNameFieldName}"></td>
                         <td colspan="2" class="text-right"
                             th:text="${reportInfo.collectedStatisticReportInfoDTO.current.projectSize}"></td>
-                        <td colspan="2" class="text-right"
+                        <td colspan="2" class="text-right" th:if="${reportInfo.collectedStatisticReportInfoDTO.lastApplied != null}"
                             th:text="${reportInfo.collectedStatisticReportInfoDTO.lastApplied.projectSize}"></td>
                     </tr>
                     <tr>
@@ -118,7 +119,7 @@
                             th:text="${reportInfo.collectedStatisticReportInfoDTO.fieldNames.targetSizeFieldName}"></td>
                         <td colspan="2" class="text-right"
                             th:text="${reportInfo.collectedStatisticReportInfoDTO.current.targetSize}"></td>
-                        <td colspan="2" class="text-right"
+                        <td colspan="2" class="text-right" th:if="${reportInfo.collectedStatisticReportInfoDTO.lastApplied != null}"
                             th:text="${reportInfo.collectedStatisticReportInfoDTO.lastApplied.targetSize}"></td>
                     </tr>
                     <tr>
@@ -126,27 +127,32 @@
                             th:text="${reportInfo.collectedStatisticReportInfoDTO.fieldNames.sourceSizeFieldName}"></td>
                         <td colspan="2" class="text-right"
                             th:text="${reportInfo.collectedStatisticReportInfoDTO.current.sourceSize}"></td>
-                        <td colspan="2" class="text-right"
+                        <td colspan="2" class="text-right" th:if="${reportInfo.collectedStatisticReportInfoDTO.lastApplied != null}"
                             th:text="${reportInfo.collectedStatisticReportInfoDTO.lastApplied.sourceSize}"></td>
                     </tr>
                     <tr th:each="time, iterator: ${reportInfo.collectedStatisticReportInfoDTO.current.timeInfo}">
                         <td class="text-right" th:text="${time.timeInfoType.timeInfoTypeName}"></td>
                         <td colspan="2" class="text-right" th:text="${time.timeValue}"></td>
-                        <td colspan="2" class="text-right" th:text="${reportInfo.collectedStatisticReportInfoDTO.lastApplied.timeInfo[iterator.index].timeValue}"></td>
+                        <td colspan="2" class="text-right" th:if="${reportInfo.collectedStatisticReportInfoDTO.lastApplied != null}"
+                            th:text="${reportInfo.collectedStatisticReportInfoDTO.lastApplied.timeInfo[iterator.index].timeValue}"></td>
                     </tr>
                     <tr>
                         <th></th>
                         <th class="text-center" th:text="${reportInfo.collectedStatisticReportInfoDTO.fieldNames.actionItemCodeFieldName}"></th>
                         <th class="text-center" th:text="${reportInfo.collectedStatisticReportInfoDTO.fieldNames.actionItemCountFieldName}"></th>
-                        <th class="text-center" th:text="${reportInfo.collectedStatisticReportInfoDTO.fieldNames.actionItemCodeFieldName}"></th>
-                        <th class="text-center" th:text="${reportInfo.collectedStatisticReportInfoDTO.fieldNames.actionItemCountFieldName}"></th>
+                        <th class="text-center" th:if="${reportInfo.collectedStatisticReportInfoDTO.lastApplied != null}"
+                            th:text="${reportInfo.collectedStatisticReportInfoDTO.fieldNames.actionItemCodeFieldName}"></th>
+                        <th class="text-center" th:if="${reportInfo.collectedStatisticReportInfoDTO.lastApplied != null}"
+                            th:text="${reportInfo.collectedStatisticReportInfoDTO.fieldNames.actionItemCountFieldName}"></th>
                     </tr>
                     <tr th:each="ai, iterator: ${reportInfo.collectedStatisticReportInfoDTO.current.actionItemCounts}">
                         <td></td>
                         <td class="text-right" th:text="${ai.aiName}"></td>
                         <td class="text-right" th:text="${ai.aiCount}"></td>
-                        <td class="text-right" th:text="${reportInfo.collectedStatisticReportInfoDTO.lastApplied.actionItemCounts[iterator.index].aiName}"></td>
-                        <td class="text-right" th:text="${reportInfo.collectedStatisticReportInfoDTO.lastApplied.actionItemCounts[iterator.index].aiCount}"></td>
+                        <td class="text-right" th:if="${reportInfo.collectedStatisticReportInfoDTO.lastApplied != null}"
+                            th:text="${reportInfo.collectedStatisticReportInfoDTO.lastApplied.actionItemCounts[iterator.index].aiName}"></td>
+                        <td class="text-right" th:if="${reportInfo.collectedStatisticReportInfoDTO.lastApplied != null}"
+                            th:text="${reportInfo.collectedStatisticReportInfoDTO.lastApplied.actionItemCounts[iterator.index].aiCount}"></td>
                     </tr>
                     </tbody>
                 </table>

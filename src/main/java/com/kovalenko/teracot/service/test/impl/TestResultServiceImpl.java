@@ -12,6 +12,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
@@ -31,7 +32,7 @@ public class TestResultServiceImpl implements TestResultService {
 
     @Override
     public List<TestResult> getTestResults(long testTypeID) {
-        return testResultRepository.findByTestType_testTypeID(testTypeID);
+        return testResultRepository.findByTestType_testTypeIDAndIsAppliedOrderByCreatedDesc(testTypeID, false);
     }
 
     @Override
@@ -46,6 +47,27 @@ public class TestResultServiceImpl implements TestResultService {
                 .findReportServiceByReportName(testTypeID, entry.getKey())
                 .saveReportContent(testResult, entry.getValue());
         }
+    }
+
+    @Override
+    public void apply(long testResultID, String devBuildNumber, String testBuildNumber) throws ApplicationException {
+        TestResult testResult = findByID(testResultID);
+        testResult.setApplied(true);
+        testResult.setDevBuildNumber(devBuildNumber);
+        testResult.setTestBuildNumber(testBuildNumber);
+        testResult.setAppliedTime(LocalDateTime.now());
+        testResultRepository.save(testResult);
+    }
+
+    @Override
+    public void deleteByTestResultID(long testResultID) {
+        testResultRepository.deleteById(testResultID);
+    }
+
+    private TestResult findByID(long testResultID) throws ApplicationException {
+        return testResultRepository.findById(testResultID)
+            .orElseThrow(() -> new ApplicationException(
+                messageSource.getMessage("test.result.not.exist", new Object[]{testResultID}, Locale.ENGLISH)));
     }
 
     private TestResult saveTestResultInfo(long testTypeID, String pathToResource) throws ApplicationException {

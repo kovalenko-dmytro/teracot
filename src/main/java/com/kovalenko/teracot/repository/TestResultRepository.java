@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface TestResultRepository extends CrudRepository<TestResult, Long> {
 
-    List<TestResult> findByTestType_testTypeID(long testTypeID);
+    List<TestResult> findByTestType_testTypeIDAndIsAppliedOrderByCreatedDesc(long testTypeID, boolean isApplied);
     Optional<TestResult> findFirstByIsAppliedAndDialectPairAndTestType_TestTypeIDOrderByCreatedDesc(boolean isApplied, String dialectPair, long testTypeID);
 }

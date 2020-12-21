@@ -42,8 +42,17 @@
             <column  name="created"  type="TIMESTAMP">
                 <constraints  nullable="false"/>
             </column>
+            <column  name="applied_time"  type="TIMESTAMP">
+                <constraints  nullable="true"/>
+            </column>
             <column  name="is_applied"  type="BOOLEAN" defaultValue="false">
                 <constraints  nullable="false"/>
+            </column>
+            <column  name="dev_build_number"  type="VARCHAR">
+                <constraints  nullable="true"/>
+            </column>
+            <column  name="test_build_number"  type="VARCHAR">
+                <constraints  nullable="true"/>
             </column>
             <column  name="test_type_id"  type="BIGSERIAL">
                 <constraints  nullable="false" foreignKeyName="fk_test_results_test_types" references="test_types(test_type_id)"/>
